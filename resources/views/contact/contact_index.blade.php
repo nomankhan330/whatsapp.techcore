@@ -2,19 +2,6 @@
 
 @section('content')
 
-    <style>
-        @media (min-width: 1400px) {
-            .container,
-            .container-lg,
-            .container-md,
-            .container-sm,
-            .container-xl,
-            .container-xxl {
-                max-width: 1900px
-            }
-        }
-    </style>
-
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Post-->
         <div class="post d-flex flex-column-fluid" id="kt_post">
@@ -274,7 +261,7 @@
                 url: "{{route('contact.create')}}",
                 success: function (result) {
                     let drawerElement = document.querySelector("#right_modal");
-                    $("#right_modal").attr("data-kt-drawer-width","{default:'350px', 'lg': '840px'}");
+                    $("#right_modal").attr("data-kt-drawer-width","{default:'350px', 'lg': '640px'}");
                     let drawer = KTDrawer.getInstance(drawerElement);
                     $('#right_modal_header').html('Add Contact');
                     $('#right_modal_body').html(result);
