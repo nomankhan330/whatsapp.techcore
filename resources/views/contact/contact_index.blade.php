@@ -141,6 +141,7 @@
                                             <tr class="fw-bold fs-6 text-muted">
                                                 <th>Id</th>
                                                 <th>Contact Name</th>
+                                                <th>Country Code.</th>
                                                 <th>Contact No.</th>
                                                 <th>Contact Status</th>
                                                 <th>Created Datetime</th>
@@ -197,6 +198,10 @@
                     {
                         data: 'contact_name',
                         name: 'contact_name'
+                    },
+                    {
+                        data: 'country_code',
+                        name: 'country_code'
                     },
                     {
                         data: 'contact_number',
@@ -288,7 +293,7 @@
                         "Your Client has been deleted.",
                         "success"
                     )
-                    deleteClient(id);
+                    deleteContact(id);
                 }
             });
         }
@@ -313,8 +318,8 @@
             });
         }
 
-        function editData1(id) {
-            url = "{{ route('client.edit', ':id') }}";
+        function editData(id) {
+            url = "{{ route('contact.edit', ':id') }}";
             url = url.replace(':id', id);
             $.ajax({
                 type: 'GET',
@@ -322,7 +327,6 @@
                 success: function(result) {
                     let drawerElement = document.querySelector("#right_modal");
                     let drawer = KTDrawer.getInstance(drawerElement);
-
                     $('#right_modal_header').html('Edit Contact');
                     $('#right_modal_body').html(result);
                     $('#right_modal_footer').html(_footer);
@@ -332,8 +336,8 @@
             });
         }
 
-        function deleteClient(id) {
-            url = "{{ route('client.destroy', ':id') }}";
+        function deleteContact(id) {
+            url = "{{ route('contact.destroy', ':id') }}";
             url = url.replace(':id', id);
             $.ajax({
                 url: url,

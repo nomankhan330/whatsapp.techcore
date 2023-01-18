@@ -1,9 +1,8 @@
-@if (!isset($client->id))
-    <form id="client_from" class="form" method="POST" action="{{ route('client.store') }}">
+@if (!isset($contact->id))
+    <form id="contact_from" class="form" method="POST" action="{{ route('contact.store') }}">
     @else
-        <form id="client_from" class="form" method="POST" action="{{ route('client.update', $client->id) }}">
+        <form id="contact_from" class="form" method="POST" action="{{ route('contact.update', $contact->id) }}">
             @method('PUT')
-            <input hidden name="user_id" value="{{ $client->user->id }}" />
 @endif
 @csrf
 <div class="d-flex flex-column scroll-y me-n7 pe-7" id="" data-kt-scroll="true"
@@ -12,14 +11,14 @@
     data-kt-scroll-offset="300px">
     <div class="fv-row mb-7">
         <label class="required fw-bold fs-6 mb-2">Official Whats App Number</label>
-        <input type="text" name="name"
-            value="{{ isset($client->client_name) ? $client->client_name : '919975754734' }}"
+        <input type="text" value="{{ isset($contact->client_name) ? $contact->client_name : '919975754734' }}"
             class="form-control form-control-solid mb-3 mb-lg-0" disabled placeholder="Please Enter your Name here."
             required />
     </div>
     <div class="fv-row mb-7">
         <label class=" fw-bold fs-6 mb-2">Contact Full Name</label>
-        <input type="email" name="email" value="{{ isset($client->email) ? $client->email : '' }}"
+        <input type="text" name="contact_name"
+            value="{{ isset($contact->contact_name) ? $contact->contact_name : '' }}"
             class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Enter Name" />
     </div>
 
@@ -28,19 +27,22 @@
             <div class="fv-row mb-7">
                 <label class="fw-bold fs-6 mb-2">Contact Code</label>
                 <select class="form-select form-select-solid fw-bolder js-example-basic-single" data-kt-select2="true"
-                    data-placeholder="Select Contact Code" data-allow-clear="true" data-dropdown-parent="#right_modal">
+                    data-placeholder="Select Contact Code" name="country_code" data-allow-clear="true"
+                    data-dropdown-parent="#right_modal">
                     <option></option>
                     @for ($i = 0; $i < count($countryCode); $i++)
-                        <option value="{{ $countryCode[$i]->code }}">{{ $countryCode[$i]->code }}</option>
+                        <option value="{{ $countryCode[$i]->code }}"
+                            {{ isset($contact->country_code) && $contact->country_code == $countryCode[$i]->code ? 'Selected' : '' }}>
+                            {{ $countryCode[$i]->code }}</option>
                     @endfor
                 </select>
             </div>
         </div>
         <div class="col-md-6">
             <div class="fv-row mb-7">
-                <label class="fw-bold fs-6 mb-2"></label>
-                <input type="text" name="contact_no"
-                    value="{{ isset($client->contact_number) ? $client->contact_number : '' }}"
+                <label class="fw-bold fs-6 mb-2">Contact Number</label>
+                <input type="text" name="contact_number"
+                    value="{{ isset($contact->contact_number) ? $contact->contact_number : '' }}"
                     class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Enter WhatsApp Number" />
             </div>
         </div>
@@ -55,4 +57,39 @@
     $(document).ready(function() {
         $('.js-example-basic-single').select2();
     });
+
+    function clientSubmit() {
+        $('button[id="submitbutton"]').attr('disabled', 'disabled');
+        $('.indicator-label').css('display', 'none');
+        $('.indicator-progress').css('display', 'block');
+        $.ajax({
+            url: $("#contact_from").attr('action'),
+            method: 'POST',
+            data: $('#contact_from').serialize(),
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            },
+            success: function(result) {
+                dt.draw();
+                toastrAll(result.status, result.message);
+                $('#right_modal_close').click();
+            },
+            error: function(err) {
+                $('button[id="submitbutton"]').removeAttr('disabled');
+                $('.indicator-progress').css('display', 'none');
+                $('.indicator-label').css('display', 'block');
+                if (err.status == 422) { // when status code is 422, it's a validation issue
+                    $('#contact_from').find('span.yourclass').remove()
+
+                    $.each(err.responseJSON.errors, function(i, error) {
+                        var el = $(document).find('[name="' + i + '"]');
+                        el.after($('<span class="yourclass" style="color: red;">' + error[0] +
+                            '</span>'));
+                    });
+                } else if (err.status == 500) {
+                    alert("Something went wrong call the admin");
+                }
+            }
+        });
+    }
 </script>

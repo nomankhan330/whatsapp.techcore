@@ -76,6 +76,10 @@ class ClientController extends Controller
                 'contact_person' => $request->contact_person,
                 'address' => $request->address,
                 'contact_number' => $request->contact_no,
+                'user_access_token' => $request->user_access_token,
+                'waba_id' => $request->waba_id,
+                'phone_number_id' => $request->phone_number_id,
+                'wa_number' => $request->wa_number,
                 'email' => $request->email,
                 'status' => '1',
             ]);
@@ -127,6 +131,10 @@ class ClientController extends Controller
         $client->contact_number= $request->contact_no;
         $client->contact_person= $request->contact_person;
         $client->email= $request->email;
+        $client->user_access_token= $request->user_access_token;
+        $client->waba_id= $request->waba_id;
+        $client->phone_number_id= $request->phone_number_id;
+        $client->wa_number= $request->wa_number;
 
         $client->user->name= $request->name;
         $client->user->email= $request->email;

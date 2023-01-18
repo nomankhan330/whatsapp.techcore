@@ -12,7 +12,7 @@ class Client extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'client_name','address','contact_person','contact_number', 'email', 'status','user_id'
+        'client_name','address','contact_person','contact_number', 'email', 'status','user_id','user_access_token','waba_id','phone_number_id','wa_number'
     ];
 
     protected $casts = [
