@@ -4,15 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Client;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Contact extends Model
+class Template extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id','contact_name','contact_number','contact_status'
+        'user_id','template_name','template_category','template_language'
     ];
 
     protected $casts = [

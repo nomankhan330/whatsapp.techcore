@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\TemplateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,7 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::resource('client', ClientController::class);
     Route::resource('contact', ContactController::class);
+    Route::resource('template', TemplateController::class);
 });
 
 // Route::resource('client', EFormTypeController::class)->middleware(['permission']);

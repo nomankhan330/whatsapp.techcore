@@ -28,4 +28,9 @@ class Client extends Model
     {
         return $this->hasOne(Contact::class);
     }
+
+    public function template()
+    {
+        return $this->hasOne(Template::class);
+    }
 }
