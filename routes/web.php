@@ -31,6 +31,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('client', ClientController::class);
     Route::resource('contact', ContactController::class);
     Route::resource('template', TemplateController::class);
+Route::get('template_variable', [TemplateController::class, 'templateVariable'])->name('template_variable');
+
 });
 
 // Route::resource('client', EFormTypeController::class)->middleware(['permission']);

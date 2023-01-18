@@ -41,5 +41,9 @@ print_r($decode->website_button_text);
     {
         return view('template/template_create');
     }
+    public function templateVariable()
+    {
+        return view('template/template_variable');
+    }
 
 }
