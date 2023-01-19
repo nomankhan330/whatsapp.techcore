@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\ClientRequest;
@@ -13,6 +14,24 @@ use Datatables;
 
 class ClientController extends Controller
 {
+     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if(Auth::user()->hasRole('admin'))
+            {
+                return $next($request);
+            }
+            else
+            {
+                abort(404, 'Not found');
+            }
+        });
+    }
     /**
      * Display a listing of the resource.
      *
@@ -20,6 +39,7 @@ class ClientController extends Controller
      */
     public function index(Request $request)
     {
+
         if($request->ajax())
         {
             /*$user = Client::with('user')->whereHas('user', function ($q) {

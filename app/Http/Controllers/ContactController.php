@@ -11,6 +11,24 @@ use Datatables;
 
 class ContactController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if(Auth::user()->hasRole('client'))
+            {
+                return $next($request);
+            }
+            else
+            {
+                return abort(404, 'Not found');
+            }
+        });
+    }
     public function index(Request $request)
     {
         $userId = Auth::user()->id;

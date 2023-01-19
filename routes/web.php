@@ -20,8 +20,7 @@ use App\Http\Controllers\TemplateController;
 */
 
 Route::get('/', function () {
-    //return Hash::make("admin123");
-    return view('auth.login');
+    return redirect()->route('login');
 });
 
 Route::get('/dashboard', function () {
