@@ -139,6 +139,17 @@
 
                                 <div class="d-flex align-items-center ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
                                     <!--begin::Menu wrapper-->
+                                    <div class="d-flex align-items-stretch" id="kt_header_nav">
+                                        <div data-kt-swapper="true"
+                                            class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+                                            <!--begin::Page Title-->
+                                            <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">
+                                                {{ Auth::user()->contact_no }}
+
+                                            </h1>
+                                            <!--end::Page Title-->
+                                        </div>
+                                    </div>
                                     <div class="cursor-pointer symbol symbol-30px symbol-md-40px"
                                         data-kt-menu-trigger="click" data-kt-menu-attach="parent"
                                         data-kt-menu-placement="bottom-end">
