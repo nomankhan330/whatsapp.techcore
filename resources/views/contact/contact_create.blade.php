@@ -23,21 +23,21 @@
     </div>
 
     <div class="row">
-        <div class="col-md-6">
-            <div class="fv-row mb-7">
-                <label class="fw-bold fs-6 mb-2">Contact Code</label>
-                <select class="form-select form-select-solid fw-bolder js-example-basic-single" data-kt-select2="true"
-                    data-placeholder="Select Contact Code" name="country_code" data-allow-clear="true"
-                    data-dropdown-parent="#right_modal">
-                    <option></option>
-                    @for ($i = 0; $i < count($countryCode); $i++)
-                        <option value="{{ $countryCode[$i]->code }}"
-                            {{ isset($contact->country_code) && $contact->country_code == $countryCode[$i]->code ? 'Selected' : '' }}>
-                            {{ $countryCode[$i]->code }}</option>
-                    @endfor
-                </select>
+        @if (!isset($contact->contact_number))
+            <div class="col-md-6">
+                <div class="fv-row mb-7">
+                    <label class="fw-bold fs-6 mb-2">Contact Code</label>
+                    <select class="form-select form-select-solid fw-bolder js-example-basic-single"
+                        data-kt-select2="true" data-placeholder="Select Contact Code" name="country_code"
+                        data-allow-clear="true" data-dropdown-parent="#right_modal">
+                        <option></option>
+                        @for ($i = 0; $i < count($countryCode); $i++)
+                            <option value="{{ $countryCode[$i]->code }}">{{ $countryCode[$i]->code }}</option>
+                        @endfor
+                    </select>
+                </div>
             </div>
-        </div>
+        @endif
         <div class="col-md-6">
             <div class="fv-row mb-7">
                 <label class="fw-bold fs-6 mb-2">Contact Number</label>

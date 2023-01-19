@@ -46,12 +46,12 @@ class ContactController extends Controller
         $userId = Auth::user()->id;
 
         DB::transaction(function () use ($request,$userId) { // Start the transaction
-            // $contactNumber =$request->country_code.$request->contact_number;
+            $contactNumber =$request->country_code.$request->contact_number;
             $data = Contact::create([
                 'user_id' => $userId,
-                'country_code'=>$request->country_code,
+                // 'country_code'=>$request->country_code,
                 'contact_name' => $request->contact_name,
-                'contact_number' => $request->contact_number,
+                'contact_number' => $contactNumber,
             ]);
 
         }); //
@@ -86,7 +86,6 @@ class ContactController extends Controller
         $request->validate([
             'contact_name' => 'required',
             'contact_number' => 'required',
-            'country_code' => 'required',
         ]);
 
         DB::transaction(function () use ($request,$contact) {
