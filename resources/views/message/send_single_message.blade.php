@@ -6,42 +6,57 @@
              data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
              data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
              data-kt-scroll-offset="300px">
+
             <div class="fv-row mb-7">
                 <label class="required fw-bold fs-6 mb-2">Official Whats App Number</label>
                 <input type="text" value="{{ isset($contact->client_name) ? $contact->client_name : '919975754734' }}"
                        class="form-control form-control-solid mb-3 mb-lg-0" disabled placeholder="Please Enter your Name here."
                        required />
             </div>
+
             <div class="fv-row mb-7">
-                <label class=" fw-bold fs-6 mb-2">Contact Full Name</label>
-                <input type="text" name="contact_name"
-                       value="{{ isset($contact->contact_name) ? $contact->contact_name : '' }}"
-                       class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Enter Name" />
+                <label class="fw-bold fs-6 mb-2 required">Sender Contact Number</label>
+                <select class="form-select form-select-solid fw-bolder js-example-basic-single"
+                        data-kt-select2="true" data-placeholder="Select Contact Number" name="country_code"
+                        data-allow-clear="true" data-dropdown-parent="#right_modal">
+                    <option></option>
+                    <option value="971545676796">Ahmed Traboli (971545676796)</option>
+                    <option value="917895875567">Akshay (917895875567)</option>
+                </select>
             </div>
 
-            <div class="row">
-                @if (!isset($contact->contact_number))
-                    <div class="col-md-6">
-                        <div class="fv-row mb-7">
-                            <label class="fw-bold fs-6 mb-2">Contact Code</label>
-                            <select class="form-select form-select-solid fw-bolder js-example-basic-single"
-                                    data-kt-select2="true" data-placeholder="Select Contact Code" name="country_code"
-                                    data-allow-clear="true" data-dropdown-parent="#right_modal">
-                                <option></option>
-                                <option value="92">92</option>
-                            </select>
-                        </div>
-                    </div>
-                @endif
-                <div class="col-md-6">
-                    <div class="fv-row mb-7">
-                        <label class="fw-bold fs-6 mb-2">Contact Number</label>
-                        <input type="text" name="contact_number"
-                               value="{{ isset($contact->contact_number) ? $contact->contact_number : '' }}"
-                               class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Enter WhatsApp Number" />
-                    </div>
+            <div class="fv-row mb-7">
+                <label class="fw-bold fs-6 mb-2 required">Template Name</label>
+                <select class="form-select form-select-solid fw-bolder js-example-basic-single"
+                        data-kt-select2="true" data-placeholder="Select Template Name" name="template_name" id="template_name"
+                        data-allow-clear="true" data-dropdown-parent="#right_modal">
+                    <option></option>
+                    <option value="calltoaction">calltoaction</option>
+                    <option value="bodylink">bodylink</option>
+                </select>
+            </div>
+
+            <div class="fv-row mb-7">
+                <label class="required fw-bold fs-6 mb-2 required">Broadcast Name</label>
+                <input type="text" value="" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Enter Broadcast Name" name="broadcast" required />
+            </div>
+
+            <div id="divTemplatePreview" style="display: none;">
+
+                <div class="fv-row mb-7">
+                    <label class="fw-bold fs-6 mb-2">Template Preview:</label>
+                    <div style="border: 1px solid #ccc;background-color: #eee; margin-right: -15px; padding: 10px;">
+
+                        <b>Greetings from WebXion</b><br><br>
+                        <p>Hi {{1}}<br><br>Thank you for connecting. Your Account activation has been done on date {{2}}<br></p>
+                        <p style="font-size: smaller;">Regards WebXion</p><br>
+                        <button type="button" class="btn btn-primary col-sm-5">Visit us</button>
+                        <br><br>
+                        <button type="button" class="btn btn-primary col-sm-5">Call us</button>
+                        <br></div>
                 </div>
             </div>
+
 
         </div>
         <div class="text-center pt-15">
@@ -51,10 +66,27 @@
 
     <script>
         $(document).ready(function() {
+
             $('.js-example-basic-single').select2();
+
+            $("#template_name").on('change', function() {
+
+                let val = $(this).val();
+                Swal.fire({
+                    text: "Please used this template is approved!",
+                    icon: "success",
+                    buttonsStyling: false,
+                    confirmButtonText: "Ok, got it!",
+                    customClass: {
+                        confirmButton: "btn btn-primary"
+                    }
+                });
+
+                $("#divTemplatePreview").show()
+            });
         });
 
-        function clientSubmit() {
+        function messageSubmit() {
             $('button[id="submitbutton"]').attr('disabled', 'disabled');
             $('.indicator-label').css('display', 'none');
             $('.indicator-progress').css('display', 'block');

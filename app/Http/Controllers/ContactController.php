@@ -48,6 +48,7 @@ class ContactController extends Controller
     public function create()
     {
         $contactNo=Auth::User()->contact_no;
+
         $countryCode=CountryCode::select('code')->where('status','1')->orderby('code','ASC')->groupBy('code')->get();
         return view('contact/contact_create',compact('countryCode','contactNo'));
     }
@@ -90,8 +91,9 @@ class ContactController extends Controller
      */
     public function edit(Contact $contact)
     {
+        $contactNo=Auth::User()->contact_no;
         $countryCode=CountryCode::select('code')->where('status','1')->orderby('code','ASC')->groupBy('code')->get();
-        return view('contact/contact_create',compact('contact','countryCode'));
+        return view('contact/contact_create',compact('contact','countryCode','contactNo'));
     }
     /**
      * Update the specified resource in storage.
@@ -102,10 +104,9 @@ class ContactController extends Controller
      */
     public function update(Request $request, Contact $contact)
     {
-
         $request->validate([
             'contact_name' => 'required',
-            'contact_number' => 'required',
+            //'contact_number' => 'required',
         ]);
 
         DB::transaction(function () use ($request,$contact) {

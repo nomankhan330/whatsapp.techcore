@@ -23,9 +23,10 @@
 
     <div class="row">
         @if (!isset($contact->contact_number))
+
             <div class="col-md-6">
                 <div class="fv-row mb-7">
-                    <label class="fw-bold fs-6 mb-2">Contact Code</label>
+                    <label class="fw-bold fs-6 mb-2">Country Code</label>
                     <select class="form-select form-select-solid fw-bolder js-example-basic-single"
                         data-kt-select2="true" data-placeholder="Select Contact Code" name="country_code"
                         data-allow-clear="true" data-dropdown-parent="#right_modal">
@@ -36,15 +37,18 @@
                     </select>
                 </div>
             </div>
-        @endif
-        <div class="col-md-6">
-            <div class="fv-row mb-7">
-                <label class="fw-bold fs-6 mb-2">Contact Number</label>
-                <input type="text" name="contact_number"
-                    value="{{ isset($contact->contact_number) ? $contact->contact_number : '' }}"
-                    class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Enter WhatsApp Number" />
+
+            <div class="col-md-6">
+                <div class="fv-row mb-7">
+                    <label class="fw-bold fs-6 mb-2">Contact Number</label>
+                    <input type="text" name="contact_number"
+                           value="{{ isset($contact->contact_number) ? $contact->contact_number : '' }}"
+                           class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Enter WhatsApp Number" />
+                </div>
             </div>
-        </div>
+
+        @endif
+
     </div>
 
 </div>
