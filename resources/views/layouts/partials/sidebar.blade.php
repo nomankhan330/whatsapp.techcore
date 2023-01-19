@@ -345,7 +345,7 @@
 
 
 <script>
-    let _footer = `<button type="button" id="right_modal_close" class="btn btn-light me-3">Discard</button>
+    let _footersidebar = `<button type="button" id="right_modal_close" class="btn btn-light me-3">Discard</button>
                             <button id="submitbutton" type="button" onclick="clientSubmit()" class="btn btn-lg btn-primary">
                                 <label class="indicator-label">Submit</label>
                                 <label class="indicator-progress">Please wait...
@@ -362,7 +362,7 @@
                 let drawer = KTDrawer.getInstance(drawerElement);
                 $('#right_modal_header').html('Add Template');
                 $('#right_modal_body').html(result);
-                $('#right_modal_footer').html(_footer);
+                $('#right_modal_footer').html(_footersidebar);
                 drawer.toggle();
 
             }

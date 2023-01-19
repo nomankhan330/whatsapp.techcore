@@ -13,10 +13,12 @@ class ContactController extends Controller
 {
     public function index(Request $request)
     {
+        $userId = Auth::user()->id;
+
         if ($request->ajax()) {
             $contact = Contact::when($request->contact_status, function ($query, $status) {
                 return $query->where('contact_status', $status);
-            })->get();
+            })->where('user_id', $userId)->get();
             return Datatables::of($contact)
                 ->addIndexColumn()
                 ->make();
@@ -49,11 +51,10 @@ class ContactController extends Controller
             $contactNumber =$request->country_code.$request->contact_number;
             $data = Contact::create([
                 'user_id' => $userId,
-                // 'country_code'=>$request->country_code,
+                'country_code'=>$request->country_code,
                 'contact_name' => $request->contact_name,
                 'contact_number' => $contactNumber,
             ]);
-
         }); //
 
         return response()->json([
@@ -82,7 +83,7 @@ class ContactController extends Controller
      */
     public function update(Request $request, Contact $contact)
     {
-        
+
         $request->validate([
             'contact_name' => 'required',
             'contact_number' => 'required',

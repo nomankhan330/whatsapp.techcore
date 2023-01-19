@@ -11,7 +11,7 @@ class Contact extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id','contact_name','contact_number','contact_status'
+        'user_id','contact_name','contact_number','contact_status','country_code'
     ];
 
     protected $casts = [
@@ -19,5 +19,5 @@ class Contact extends Model
         'updated_at' => 'date:Y-m-d H:i:s',
     ];
 
-    
+
 }
