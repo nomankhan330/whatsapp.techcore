@@ -306,8 +306,7 @@
                 success: function(result) {
                     let drawerElement = document.querySelector("#right_modal");
                     let drawer = KTDrawer.getInstance(drawerElement);
-                    $("#right_modal").attr("data-kt-drawer-width",
-                        "{default:'350px', 'lg': '640px'}");
+                    $("#right_modal").attr("data-kt-drawer-width", "{default:'350px', 'lg': '640px'}");
                     $("#right_modal").attr('style', 'width: 640px !important')
                     $('#right_modal_header').html('Add Contact');
                     $('#right_modal_body').html(result);

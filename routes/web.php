@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SettingsController;
@@ -31,7 +32,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('client', ClientController::class);
     Route::resource('contact', ContactController::class);
     Route::resource('template', TemplateController::class);
-Route::get('template_variable', [TemplateController::class, 'templateVariable'])->name('template_variable');
+    Route::get('template_variable', [TemplateController::class, 'templateVariable'])->name('template_variable');
+    Route::get('send_single_message', [MessageController::class, 'index'])->name('send_single_message');
+    Route::get('send_bulk_message', [MessageController::class, 'sendBulkMessage'])->name('send_bulk_message');
 
 });
 

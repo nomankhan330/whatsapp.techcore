@@ -355,10 +355,11 @@
     function addDataSingleMessage() {
         $.ajax({
             type: 'GET',
-            url: "{{ route('template.create') }}",
+            url: "{{ route('send_single_message') }}",
             success: function(result) {
                 let drawerElement = document.querySelector("#right_modal");
-                $("#right_modal").attr("data-kt-drawer-width", "{default:'350px', 'lg': '1140px'}");
+                $("#right_modal").attr("data-kt-drawer-width", "{default:'350px', 'lg': '640px'}");
+                $("#right_modal").attr('style', 'width: 640px !important')
                 let drawer = KTDrawer.getInstance(drawerElement);
                 $('#right_modal_header').html('Add Template');
                 $('#right_modal_body').html(result);
