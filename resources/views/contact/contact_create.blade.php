@@ -11,9 +11,8 @@
     data-kt-scroll-offset="300px">
     <div class="fv-row mb-7">
         <label class="required fw-bold fs-6 mb-2">Official Whats App Number</label>
-        <input type="text" value="{{ isset($contact->client_name) ? $contact->client_name : '919975754734' }}"
-            class="form-control form-control-solid mb-3 mb-lg-0" disabled placeholder="Please Enter your Name here."
-            required />
+        <input type="text" value="{{ $contactNo }}" class="form-control form-control-solid mb-3 mb-lg-0" disabled
+            placeholder="Please Enter your Name here." required />
     </div>
     <div class="fv-row mb-7">
         <label class=" fw-bold fs-6 mb-2">Contact Full Name</label>

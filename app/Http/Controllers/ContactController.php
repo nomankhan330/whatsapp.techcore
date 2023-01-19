@@ -29,8 +29,9 @@ class ContactController extends Controller
 
     public function create()
     {
+        $contactNo=Auth::User()->contact_no;
         $countryCode=CountryCode::select('code')->where('status','1')->orderby('code','ASC')->groupBy('code')->get();
-        return view('contact/contact_create',compact('countryCode'));
+        return view('contact/contact_create',compact('countryCode','contactNo'));
     }
     /**
      * Store a newly created resource in storage.
