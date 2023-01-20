@@ -39,6 +39,11 @@
                 max-width: 1420px
             }
         }
+
+        .my-disabled{
+            pointer-events: none;
+            opacity: 0.4;
+        }
     </style>
 
 </head>
@@ -242,7 +247,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="modal-body scroll-y mx-10 my-7" id="modalBodyMedium">
+                            <div class="modal-body scroll-y" id="modalBodyMedium">
                             </div>
                         </div>
                     </div>

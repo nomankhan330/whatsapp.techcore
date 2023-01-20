@@ -19,12 +19,9 @@ class ContactController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            if(Auth::user()->hasRole('client'))
-            {
+            if (Auth::user()->hasRole('client')) {
                 return $next($request);
-            }
-            else
-            {
+            } else {
                 return abort(404, 'Not found');
             }
         });

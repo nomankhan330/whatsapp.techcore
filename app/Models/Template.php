@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,9 +10,11 @@ class Template extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
+    /*protected $fillable = [
         'user_id','template_name','template_category','template_language'
-    ];
+    ];*/
+
+    protected $guarded = [];
 
     protected $casts = [
         'created_at' => 'date:Y-m-d H:i:s',
@@ -21,5 +24,22 @@ class Template extends Model
     public function client()
     {
         return $this->belongsTo(Client::class,"user_id");
+    }
+
+    public function templateCategory()
+    {
+        return $this->belongsTo(TemplateCategory::class,'template_category');
+    }
+
+    public function templateLanguage()
+    {
+        return $this->belongsTo(TemplateLanguage::class,'template_language');
+    }
+
+    protected function buttonValue(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => json_decode($value),
+        );
     }
 }

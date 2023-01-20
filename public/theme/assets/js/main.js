@@ -66,3 +66,23 @@ function toastrAll(status, message) {
         toastr.error(message);
     }
 }
+
+$(document).ajaxError(function myErrorHandler(event, xhr, ajaxOptions, thrownError) {
+
+    if (xhr.status === 401) {
+        alert("Your Session Expire Please Login Again");
+
+       /* Swal.fire({
+            text: "Your Session Expired Please Login Again!",
+            icon: "success",
+            buttonsStyling: false,
+            confirmButtonText: "Ok, got it!",
+            customClass: {
+                confirmButton: "btn btn-primary"
+            }
+        });*/
+
+        window.location.reload();
+    }
+
+});

@@ -251,8 +251,7 @@
                                 <div class="menu-item px-3">
                                     <a  onclick="sweetAlertDelete('${row.client_id}')" class="menu-link px-3" data-kt-users-table-filter="delete_row">Delete</a>
                                 </div>
-                            </div>
-                            `;
+                            </div>`;
                         }
                     },
                 ],

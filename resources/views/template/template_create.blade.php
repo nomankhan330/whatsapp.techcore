@@ -1,32 +1,22 @@
-@if (!isset($client->id))
-    <form id="client_from" class="form" method="POST" action="{{ route('client.store') }}">
-    @else
-        <form id="client_from" class="form" method="POST" action="{{ route('client.update', $client->id) }}">
-            @method('PUT')
-            <input hidden name="user_id" value="{{ $client->user->id }}" />
-@endif
+<form id="template_form" class="form" method="POST" enctype="multipart/form-data">
 @csrf
 <div class="d-flex flex-column scroll-y me-n7 pe-7" id="" data-kt-scroll="true"
     data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
     data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
     data-kt-scroll-offset="300px">
 
-
     <div class="row">
 
         <div class="col-md-2">
             <div class="fv-row mb-7">
                 <label class="required fw-bold fs-6 mb-2">Template Name</label>
-
             </div>
         </div>
 
         <div class="col-md-5">
             <div class="fv-row mb-7">
-                <input type="text" name="name"
-                    value="{{ isset($client->client_name) ? $client->client_name : '' }}"
+                <input type="text" id="template_name" name="template_name" value=""
                     class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Enter Template Name" required />
-
             </div>
         </div>
 
@@ -43,11 +33,16 @@
         <div class="col-md-5">
             <div class="fv-row mb-7">
                 <select class="form-select form-select-solid fw-bolder js-example-basic-single" data-kt-select2="true"
-                    data-placeholder="Select Category" data-allow-clear="true" data-dropdown-parent="#right_modal">
+                    data-placeholder="Select Category" name="template_category" data-allow-clear="true" data-dropdown-parent="#right_modal">
                     <option></option>
-                    <option value="Auto Reply">Auto Reply</option>
+
+                    @for ($i = 0; $i < count($templateCategory); $i++)
+                        <option value="{{ $templateCategory[$i]->id }}">{{ $templateCategory[$i]->fullname }}</option>
+                    @endfor
+
+                    {{--<option value="Auto Reply">Auto Reply</option>
                     <option value="Account Update">Account Update</option>
-                    <option value="Payment Update">Payment Update</option>
+                    <option value="Payment Update">Payment Update</option>--}}
                 </select>
             </div>
         </div>
@@ -64,11 +59,16 @@
         <div class="col-md-5">
             <div class="fv-row mb-7">
                 <select class="form-select form-select-solid fw-bolder js-example-basic-single" data-kt-select2="true"
-                    data-placeholder="Select Language" data-allow-clear="true" data-dropdown-parent="#right_modal">
+                    data-placeholder="Select Language" name="template_language" data-allow-clear="true" data-dropdown-parent="#right_modal">
                     <option></option>
-                    <option value="en_US">English (US) (en_US)</option>
+
+                    @for ($i = 0; $i < count($templateLanguage); $i++)
+                        <option value="{{ $templateLanguage[$i]->id }}">{{ $templateLanguage[$i]->fullname }} ({{ $templateLanguage[$i]->shortname }})</option>
+                    @endfor
+
+                    {{--<option value="en_US">English (US) (en_US)</option>
                     <option value="en_GB">English (UK) (en_GB)</option>
-                    <option value="en">English (en)</option>
+                    <option value="en">English (en)</option>--}}
                 </select>
             </div>
         </div>
@@ -86,7 +86,7 @@
             <div class="fv-row mb-7">
                 <select class="form-select form-select-solid fw-bolder js-example-basic-single" data-kt-select2="true"
                     data-placeholder="Select Header" data-allow-clear="true" data-dropdown-parent="#right_modal"
-                    id="ddlHeader">
+                    name="header_type" id="header_type">
                     <option value="none">None</option>
                     <option value="media">Media</option>
                     <option value="text">Text</option>
@@ -106,7 +106,7 @@
         </div>
         <div class="col-md-5">
             <div class="fv-row mb-7">
-                <input type="file" name="file" class="form-control mb-3 mb-lg-0">
+                <input type="file" name="header_file" class="form-control mb-3 mb-lg-0">
             </div>
         </div>
 
@@ -121,7 +121,7 @@
         </div>
         <div class="col-md-5">
             <div class="fv-row mb-7">
-                <textarea class="form-control form-control-solid mb-3 mb-lg-0 kt_docs_maxlength_textarea_60" id=""
+                <textarea class="form-control form-control-solid mb-3 mb-lg-0 kt_docs_maxlength_textarea_60" id="header_text" name="header_text"
                           maxlength="60" placeholder="Enter Header Text" rows="4"></textarea>
             </div>
         </div>
@@ -163,7 +163,7 @@
 
         <div class="col-md-5">
             <div class="fv-row mb-7">
-                <textarea class="form-control form-control-solid mb-3 mb-lg-0 kt_docs_maxlength_textarea_1024" id="body_text"
+                <textarea class="form-control form-control-solid mb-3 mb-lg-0 kt_docs_maxlength_textarea_1024" id="body_text" name="body_text"
                     maxlength="1024" placeholder="Enter Body Text" rows="11"></textarea>
             </div>
         </div>
@@ -192,7 +192,7 @@
         </div>
         <div class="col-md-5">
             <div class="fv-row mb-7">
-                <textarea class="form-control form-control-solid mb-3 mb-lg-0 kt_docs_maxlength_textarea_60" id="footer_text"
+                <textarea class="form-control form-control-solid mb-3 mb-lg-0 kt_docs_maxlength_textarea_60" id="footer_text" name="footer_text"
                           maxlength="60" placeholder="Enter Footer Text" rows="6"></textarea>
             </div>
         </div>
@@ -222,7 +222,7 @@
             <div class="fv-row mb-7">
                 <select class="form-select form-select-solid fw-bolder js-example-basic-single" data-kt-select2="true"
                     data-placeholder="Select Button" data-allow-clear="true"
-                    data-dropdown-parent="#right_modal" id="select_button">
+                    data-dropdown-parent="#right_modal" id="select_button" name="select_button">
                     <option></option>
                     <option value="call_to_action">Call To Action</option>
                     <option value="quick_reply">Quick Reply</option>
@@ -257,10 +257,8 @@
             </div>
 
             <div class="col-md-5">
-
                 <div class="fv-row mb-7">
-                <textarea class="form-control form-control-solid mb-3 mb-lg-0" id=""
-                          maxlength="20" placeholder="Enter Button Text" rows="4"></textarea>
+                    <textarea class="form-control form-control-solid mb-3 mb-lg-0 kt_docs_maxlength_textarea_20" id="website_button_text" name="website_button_text" maxlength="20" placeholder="Enter Button Text" rows="4"></textarea>
                 </div>
             </div>
 
@@ -287,7 +285,7 @@
                 <div class="fv-row mb-7">
                     <select class="form-select form-select-solid fw-bolder js-example-basic-single" data-kt-select2="true"
                             data-placeholder="Select Type" data-allow-clear="true"
-                            data-dropdown-parent="#right_modal" id="call_to_action_type">
+                            data-dropdown-parent="#right_modal" id="call_to_action_type" name="website_type">
                         <option></option>
                         <option value="static">Static</option>
                         <option value="dynamic">Dynamic</option>
@@ -308,7 +306,7 @@
             <div class="col-md-5">
 
                 <div class="fv-row mb-7">
-                <textarea class="form-control form-control-solid mb-3 mb-lg-0" id=""
+                <textarea class="form-control form-control-solid mb-3 mb-lg-0 kt_docs_maxlength_textarea_2000" id="link" name="website_link"
                           maxlength="2000" placeholder="Enter Button Text" rows="4"></textarea>
                 </div>
             </div>
@@ -348,8 +346,8 @@
 
             <div class="col-md-5">
                 <div class="fv-row mb-7">
-                <textarea class="form-control form-control-solid mb-3 mb-lg-0" id=""
-                          maxlength="20" placeholder="Enter Button Text" rows="4"></textarea>
+                    <textarea class="form-control form-control-solid mb-3 mb-lg-0 kt_docs_maxlength_textarea_2000" id="phone_button_text" name="phone_button_text"
+                              maxlength="20" placeholder="Enter Button Text" rows="4"></textarea>
                 </div>
             </div>
 
@@ -374,8 +372,8 @@
 
             <div class="col-md-5">
                 <div class="fv-row mb-7">
-                <textarea class="form-control form-control-solid mb-3 mb-lg-0" id=""
-                          maxlength="20" placeholder="Enter Phone number with country code" rows="4"></textarea>
+                    <textarea class="form-control form-control-solid mb-3 mb-lg-0 kt_docs_maxlength_textarea_2000" id="phone_phone_number" name="phone_phone_number"
+                              maxlength="20" placeholder="Enter Phone number with country code" rows="4"></textarea>
                 </div>
             </div>
 
@@ -405,7 +403,7 @@
             <div class="col-md-5">
 
                 <div class="fv-row mb-7">
-                <textarea class="form-control form-control-solid mb-3 mb-lg-0" id=""
+                <textarea class="form-control form-control-solid mb-3 mb-lg-0 kt_docs_maxlength_textarea_20" id="quick_reply_button_text_1" name="quick_reply_button_text_1"
                           maxlength="20" placeholder="Enter Button Text" rows="4"></textarea>
                 </div>
             </div>
@@ -432,7 +430,7 @@
             <div class="col-md-5">
 
                 <div class="fv-row mb-7">
-                <textarea class="form-control form-control-solid mb-3 mb-lg-0" id=""
+                <textarea class="form-control form-control-solid mb-3 mb-lg-0 kt_docs_maxlength_textarea_20" id="quick_reply_button_text_2" name="quick_reply_button_text_2"
                           maxlength="20" placeholder="Enter Button Text" rows="4"></textarea>
                 </div>
             </div>
@@ -459,7 +457,7 @@
             <div class="col-md-5">
 
                 <div class="fv-row mb-7">
-                <textarea class="form-control form-control-solid mb-3 mb-lg-0" id=""
+                <textarea class="form-control form-control-solid mb-3 mb-lg-0 kt_docs_maxlength_textarea_20" id="quick_reply_button_text_3" name="quick_reply_button_text_3"
                           maxlength="20" placeholder="Enter Button Text" rows="4"></textarea>
                 </div>
             </div>
@@ -485,9 +483,22 @@
 </form>
 
 <script>
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     $(document).ready(function() {
 
         $('.js-example-basic-single').select2();
+
+        $('.kt_docs_maxlength_textarea_20').maxlength({
+            alwaysShow: true,
+            warningClass: "badge badge-primary",
+            limitReachedClass: "badge badge-success"
+        });
 
         $('.kt_docs_maxlength_textarea_60').maxlength({
             alwaysShow: true,
@@ -496,6 +507,12 @@
         });
 
         $('.kt_docs_maxlength_textarea_1024').maxlength({
+            alwaysShow: true,
+            warningClass: "badge badge-primary",
+            limitReachedClass: "badge badge-success"
+        });
+
+        $('.kt_docs_maxlength_textarea_2000').maxlength({
             alwaysShow: true,
             warningClass: "badge badge-primary",
             limitReachedClass: "badge badge-success"
@@ -514,8 +531,7 @@
 
         });
 
-
-        $("#ddlHeader").on('change', function() {
+        $("#header_type").on('change', function() {
             let val = $(this).val();
             if (val === 'media') {
                 $("#divMedia").show()
@@ -544,6 +560,50 @@
                 $("#divQuickReply").hide()
             }
         });
-
     });
+
+    function submitTemplate() {
+
+        let Form_data = new FormData($('#template_form')[0]);
+        /*for (var pair of Form_data.entries()){
+            console.log(pair[0] + ' - ' + pair[1]);
+        }
+        return false;*/
+
+        $('button[id="btnSave"]').attr('disabled', 'disabled');
+        $('.indicator-label').css('display', 'none');
+        $('.indicator-progress').css('display', 'block');
+
+        $.ajax({
+            method: 'POST',
+            url: "{{ route('template.store') }}",
+            data: Form_data,
+            contentType: false,
+            processData: false,
+            success: (result) => {
+                dt.draw();
+                toastrAll(result.status, result.message);
+                $('#right_modal_close').click();
+            },
+            error: function (err) {
+
+                $('button[id="btnSave"]').removeAttr('disabled');
+                $('.indicator-progress').css('display', 'none');
+                $('.indicator-label').css('display', 'block');
+
+                if (err.status == 422) { // when status code is 422, it's a validation issue
+                    $('#template_form').find('span.yourclass').remove()
+                    $.each(err.responseJSON.errors, function (i, error) {
+                        var el = $(document).find('[name="' + i + '"]');
+                        el.after($('<span class="yourclass" style="color: red;">' + error[0] +
+                            '</span>'));
+                    });
+                } else if (err.status == 500) {
+                    alert("Something went wrong call the admin");
+                }
+
+            }
+        });
+    }
+
 </script>

@@ -266,6 +266,7 @@
         function filterData2() {
             dt.draw();
         }
+
         let handleSearchDatatable = function() {
             const filterSearch = document.querySelector('[data-kt-docs-table-filter="search"]');
             filterSearch.addEventListener('keyup', function(e) {

@@ -22,12 +22,9 @@ class ClientController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            if(Auth::user()->hasRole('admin'))
-            {
+            if (Auth::user()->hasRole('admin')) {
                 return $next($request);
-            }
-            else
-            {
+            } else {
                 abort(404, 'Not found');
             }
         });
