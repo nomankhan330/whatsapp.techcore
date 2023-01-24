@@ -283,7 +283,7 @@
                     <div class="col-md-5">
 
                         <div class="fv-row mb-7">
-                            <textarea class="form-control form-control-solid mb-3 mb-lg-0" id="quick_reply_button_text_1" name="quick_reply_button_text_1" maxlength="20" placeholder="Enter Button Text" rows="4">{{ isset($template->button_value->quick_reply_button_text_1) ? $template->button_value->quick_reply_button_text_1 : '' }}</textarea>
+                            <textarea class="form-control form-control-solid mb-3 mb-lg-0" id="quick_reply_button_text_1" name="quick_reply_button_text_1" maxlength="20" disabled placeholder="Enter Button Text" rows="4">{{ isset($template->button_value->quick_reply_button_text_1) ? $template->button_value->quick_reply_button_text_1 : '' }}</textarea>
                         </div>
                     </div>
 
@@ -304,7 +304,7 @@
                     <div class="col-md-5">
 
                         <div class="fv-row mb-7">
-                            <textarea class="form-control form-control-solid mb-3 mb-lg-0" id="quick_reply_button_text_2" name="quick_reply_button_text_2" maxlength="20" placeholder="Enter Button Text" rows="4">{{ isset($template->button_value->quick_reply_button_text_2) ? $template->button_value->quick_reply_button_text_2 : '' }}</textarea>
+                            <textarea class="form-control form-control-solid mb-3 mb-lg-0" id="quick_reply_button_text_2" name="quick_reply_button_text_2" maxlength="20" disabled placeholder="Enter Button Text" rows="4">{{ isset($template->button_value->quick_reply_button_text_2) ? $template->button_value->quick_reply_button_text_2 : '' }}</textarea>
                         </div>
                     </div>
 
@@ -324,7 +324,7 @@
 
                     <div class="col-md-5">
                         <div class="fv-row mb-7">
-                            <textarea class="form-control form-control-solid mb-3 mb-lg-0" id="quick_reply_button_text_3" name="quick_reply_button_text_3" maxlength="20" placeholder="Enter Button Text" rows="4">{{ isset($template->button_value->quick_reply_button_text_3) ? $template->button_value->quick_reply_button_text_3 : '' }}</textarea>
+                            <textarea class="form-control form-control-solid mb-3 mb-lg-0" id="quick_reply_button_text_3" name="quick_reply_button_text_3" maxlength="20" disabled placeholder="Enter Button Text" rows="4">{{ isset($template->button_value->quick_reply_button_text_3) ? $template->button_value->quick_reply_button_text_3 : '' }}</textarea>
                         </div>
                     </div>
 

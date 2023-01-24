@@ -21,10 +21,7 @@ class MessageController extends Controller
         ])->get();*/
 
 
-        $templates = Template::select('id','template_name')->where('user_id',$userId)->where(function($query) {
-            $query->where('template_status','Approved');
-                //->orWhere('email','johndoe@example.com');
-        })->get();
+        $templates = Template::select('id','template_name')->where('user_id',$userId)->where('template_status','Approved')->get();
 
         //dd($template);
         return view('message/send_single_message', compact('contact','templates','whatsAppNumber'));
