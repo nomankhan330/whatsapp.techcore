@@ -33,8 +33,8 @@ print_r($decode->website_button_text);
     public function index(Request $request)
     {
         if ($request->ajax()) {
-
-            $template = Template::with(['templateCategory','templateLanguage'])->get();
+            $userId = Auth::user()->id;
+            $template = Template::with(['templateCategory','templateLanguage'])->where('user_id',$userId)->get();
             return Datatables::of($template)
                 ->addIndexColumn()
                 ->make();

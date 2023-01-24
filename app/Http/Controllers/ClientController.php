@@ -44,12 +44,10 @@ class ClientController extends Controller
             })->get(['name']);*/
 
             //dd($user);
-
-            $user=Client::with(['user' => function($q)
-            {
+            $user = Client::with(['user' => function ($q) {
                 $q->where('user_type', '2');
-                $q->select('id','name','email','contact_no','profile_picture','last_login');
-            }])->get(['user_id','id AS client_id','created_at','contact_person']);
+                $q->select('id', 'name', 'email', 'contact_no', 'profile_picture', 'last_login');
+            }])->get(['user_id', 'id AS client_id', 'created_at', 'contact_person']);
             return Datatables::of($user)
                 ->addIndexColumn()
                 ->make();

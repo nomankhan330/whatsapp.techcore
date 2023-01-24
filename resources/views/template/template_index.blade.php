@@ -184,6 +184,10 @@
                                     <label class="spinner-border spinner-border-sm align-middle ms-2"></label></label>
                             </button>`
 
+        let _footer_view = `<button id="btnSave" onclick=" $('#right_modal_close').click() " type="button" class="btn btn-lg btn-primary">
+                                <label class="indicator-label">Back</label>
+                            </button>`
+
         $(document).ready(function () {
             // Initialize
             dt = $('#clientTable').DataTable({
@@ -315,9 +319,9 @@
                     let drawerElement = document.querySelector("#right_modal");
                     let drawer = KTDrawer.getInstance(drawerElement);
 
-                    $('#right_modal_header').html('Edit Contact');
+                    $('#right_modal_header').html('View Template');
                     $('#right_modal_body').html(result);
-                    $('#right_modal_footer').html(_footer);
+                    $('#right_modal_footer').html(_footer_view);
                     drawer.toggle();
                 }
             });

@@ -9,7 +9,7 @@
 
         <div class="fv-row mb-7">
             <label class="required fw-bold fs-6 mb-2">Official Whats App Number</label>
-            <input type="text" value="{{ isset($contact->client_name) ? $contact->client_name : '919975754734' }}"
+            <input type="text" value="{{ $whatsAppNumber }}"
                    class="form-control form-control-solid mb-3 mb-lg-0" disabled placeholder="Please Enter your Name here."
                    required />
         </div>
@@ -20,30 +20,37 @@
                     data-kt-select2="true" data-placeholder="Select Template Name" name="template_name" id="template_name"
                     data-allow-clear="true" data-dropdown-parent="#right_modal">
                 <option></option>
-                <option value="calltoaction">calltoaction</option>
-                <option value="bodylink">bodylink</option>
+                {{--<option value="calltoaction">calltoaction</option>
+                    <option value="bodylink">bodylink</option>--}}
+
+                @for ($i = 0; $i < count($templates); $i++)
+                    <option value="{{ $templates[$i]->id }}"> {{ $templates[$i]->template_name }} </option>
+                @endfor
             </select>
+        </div>
+
+        <div class="fv-row mb-7">
+            <label class="required fw-bold fs-6 mb-2 required">Broadcast Name</label>
+            <input type="text" value="" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Enter Broadcast Name" name="broadcast" required />
         </div>
 
         <div id="divTemplatePreview" style="display: none;">
 
             <div class="fv-row mb-7">
                 <label class="fw-bold fs-6 mb-2">Template Preview:</label>
-                <div style="border: 1px solid #ccc;background-color: #eee; margin-right: -15px; padding: 10px;">
 
-                    <b>Greetings from WebXion</b><br><br>
+                <div id="divTemplateData" style="border: 1px solid #ccc;background-color: #eee; margin-right: -15px; padding: 10px;">
+
+                    {{--<b>Greetings from WebXion</b><br><br>
                     <p>Hi {{1}}<br><br>Thank you for connecting. Your Account activation has been done on date {{2}}<br></p>
                     <p style="font-size: smaller;">Regards WebXion</p><br>
                     <button type="button" class="btn btn-primary col-sm-5">Visit us</button>
                     <br><br>
-                    <button type="button" class="btn btn-primary col-sm-5">Call us</button>
-                    <br></div>
-            </div>
-        </div>
+                    <button type="button" class="btn btn-primary col-sm-5">Call us</button>--}}
+                    <br>
+                </div>
 
-        <div class="fv-row mb-7">
-            <label class="required fw-bold fs-6 mb-2 required">Broadcast Name</label>
-            <input type="text" value="" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Enter Broadcast Name" name="broadcast" required />
+            </div>
         </div>
 
         <div class="fv-row mb-7">
@@ -87,7 +94,43 @@
         $("#template_name").on('change', function() {
 
             let val = $(this).val();
-            Swal.fire({
+            let _html = "";
+            let media_url = "";
+
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('get_template_data') }}",
+                data: { 'id' : val },
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+                success: function (result) {
+
+                    console.log(result);
+
+                    if (result.code === '200') {
+
+                        let params = result.params;
+
+                        result = result.data[0];
+                        //console.log(result.id);
+
+                        if (result.header_type == "media"){
+                            media_url = "{{ asset(':path') }}";
+                            media_url = media_url.replace(':path',result.header_value)
+                            _html += `<a href="${media_url}" class="btn btn-info btn-sm">Attachment</a> <br /> <br />`;
+                        }
+
+                        _html += `<pre>${result.body_text}</pre>`
+                        _html += `<pre>${result.footer_text}</pre>`
+
+                        $("#divTemplateData").html(_html);
+                        $("#divTemplatePreview").show()
+                    }
+                }
+            });
+
+            /*Swal.fire({
                 text: "Please used this template is approved!",
                 icon: "success",
                 buttonsStyling: false,
@@ -95,9 +138,9 @@
                 customClass: {
                     confirmButton: "btn btn-primary"
                 }
-            });
+            });*/
 
-            $("#divTemplatePreview").show()
+
         });
 
         $("#scheduled_message_send").on('change', function() {

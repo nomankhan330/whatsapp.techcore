@@ -44,7 +44,7 @@ class ContactController extends Controller
 
     public function create()
     {
-        $contactNo=Auth::User()->contact_no;
+        $contactNo = Auth::User()->contact_no;
 
         $countryCode=CountryCode::select('code')->where('status','1')->orderby('code','ASC')->groupBy('code')->get();
         return view('contact/contact_create',compact('countryCode','contactNo'));
@@ -59,7 +59,7 @@ class ContactController extends Controller
     {
         $request->validate([
             'contact_name' => 'required',
-            'contact_number' => 'required',
+            'contact_number' => 'required|regex:/[0-9]/',
             'country_code' => 'required',
         ]);
         $userId = Auth::user()->id;
@@ -71,6 +71,7 @@ class ContactController extends Controller
                 'country_code'=>$request->country_code,
                 'contact_name' => $request->contact_name,
                 'contact_number' => $contactNumber,
+                'contact_status' => 'valid',
             ]);
         }); //
 

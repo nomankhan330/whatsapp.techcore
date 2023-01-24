@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::get('template_variable', [TemplateController::class, 'templateVariable'])->name('template_variable');
     Route::get('send_single_message', [MessageController::class, 'index'])->name('send_single_message');
     Route::get('send_bulk_message', [MessageController::class, 'sendBulkMessage'])->name('send_bulk_message');
+    Route::post('get_template_data', [MessageController::class, 'getTemplateData'])->name('get_template_data');
 });
 
 // Route::resource('client', EFormTypeController::class)->middleware(['permission']);

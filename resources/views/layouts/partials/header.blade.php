@@ -39,11 +39,6 @@
                 max-width: 1420px
             }
         }
-
-        .my-disabled{
-            pointer-events: none;
-            opacity: 0.4;
-        }
     </style>
 
 </head>
