@@ -34,7 +34,10 @@ print_r($decode->website_button_text);
     {
         if ($request->ajax()) {
             $userId = Auth::user()->id;
-            $template = Template::with(['templateCategory','templateLanguage'])->where('user_id',$userId)->get();
+            $template = Template::with(['templateCategory','templateLanguage'])->where('user_id',$userId)->
+                when($request->template_status, function ($query, $status) {
+                    return $query->where('template_status', $status);
+                })->get();
             return Datatables::of($template)
                 ->addIndexColumn()
                 ->make();

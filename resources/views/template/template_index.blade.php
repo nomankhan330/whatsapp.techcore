@@ -77,7 +77,7 @@
                                                     <label class="form-label fs-5 fw-bold mb-3">Template Status:</label>
                                                     <!--end::Label-->
                                                     <!--begin::Input-->
-                                                    <select class="form-select form-select-solid fw-bolder" data-kt-select2="true" data-placeholder="Select option" data-allow-clear="true" data-kt-customer-table-filter="month">
+                                                    <select class="form-select form-select-solid fw-bolder" id="template_status" data-kt-select2="true" data-placeholder="Select option" data-allow-clear="true" data-kt-customer-table-filter="month">
                                                         <option></option>
                                                         <option value="approved">Approved</option>
                                                         <option value="pending">Pending</option>
@@ -88,8 +88,13 @@
 
                                                 <!--begin::Actions-->
                                                 <div class="d-flex justify-content-end">
-                                                    <button type="reset" class="btn btn-white btn-active-light-primary me-2" data-kt-menu-dismiss="true" data-kt-customer-table-filter="reset">Reset</button>
-                                                    <button type="submit" class="btn btn-primary" data-kt-menu-dismiss="true" data-kt-customer-table-filter="filter">Apply</button>
+                                                    <button type="reset"
+                                                            class="btn btn-white btn-active-light-primary me-2"
+                                                            data-kt-menu-dismiss="true" data-kt-customer-table-filter="reset"
+                                                            onclick="clearFilter() ">Reset</button>
+                                                    <button type="submit" class="btn btn-primary"
+                                                            data-kt-menu-dismiss="true" data-kt-customer-table-filter="filter"
+                                                            onclick="filterData2()">Apply</button>
                                                 </div>
                                                 <!--end::Actions-->
                                             </div>
@@ -202,6 +207,7 @@
                 ajax: {
                     url: "{{ route('template.index') }}",
                     data: function (d) {
+                        d.template_status = $('#template_status').val()
                     }
                 },
                 columns: [
@@ -341,6 +347,14 @@
                     dt.draw();
                 }
             })
+        }
+        function clearFilter() {
+            $('#template_status').val('');
+            // $('#tag2').val([]);
+            dt.draw();
+        }
+        function filterData2() {
+            dt.draw();
         }
 
     </script>
