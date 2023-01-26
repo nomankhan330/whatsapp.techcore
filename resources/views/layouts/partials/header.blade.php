@@ -93,18 +93,42 @@
                         <div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1">
                             <!--begin::Navbar-->
                             <div class="d-flex align-items-stretch" id="kt_header_nav">
-                                <div data-kt-swapper="true"
+                                <div class="header-menu align-items-stretch" data-kt-drawer="true"
+                                    data-kt-drawer-name="header-menu"
+                                    data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true"
+                                    data-kt-drawer-width="{default:'200px', '300px': '250px'}"
+                                    data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_header_menu_mobile_toggle"
+                                    data-kt-swapper="true" data-kt-swapper-mode="prepend"
+                                    data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav'}">
+                                    <!--begin::Menu-->
+                                    <div class="menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-5 my-lg-0 align-items-stretch"
+                                        id="#kt_header_menu" data-kt-menu="true">
+                                        <div data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
+                                            class="menu-item here show menu-lg-down-accordion me-lg-1">
+                                            <span class="menu-link py-3">
+                                                <span class="menu-title">
+                                                    {{ Route::currentRouteName() == 'settings.create' ? 'Setting' : '' }}
+                                                    {{ Route::currentRouteName() == 'dashboard' ? 'Dashboard' : '' }}
+                                                    {{ Route::currentRouteName() == 'client.index' ? 'Clients' : '' }}
+                                                    {{ Route::currentRouteName() == 'contact.index' ? 'Contacts' : '' }}
+                                                </span>
+                                                <span class="menu-arrow d-lg-none"></span>
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+                                    <!--end::Menu-->
+                                </div>
+                                {{-- <div data-kt-swapper="true"
                                     class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                                     <!--begin::Page Title-->
                                     <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">
-                                        {{ Route::currentRouteName() == 'settings.create' ? 'Setting' : '' }}
-                                        {{ Route::currentRouteName() == 'dashboard' ? 'Dashboard' : '' }}
-                                        {{ Route::currentRouteName() == 'client.index' ? 'Clients' : '' }}
-                                        {{ Route::currentRouteName() == 'contact.index' ? 'Contacts' : '' }}
+
 
                                     </h1>
                                     <!--end::Page Title-->
-                                </div>
+                                </div> --}}
                             </div>
                             <!--end::Navbar-->
                             <!--begin::Toolbar wrapper-->
@@ -140,7 +164,25 @@
                                 <div class="d-flex align-items-center ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
                                     <!--begin::Menu wrapper-->
                                     <div class="d-flex align-items-stretch" id="kt_header_nav">
-                                        <div data-kt-swapper="true"
+                                        <div class="header-menu align-items-stretch" data-kt-drawer="true">
+                                            <!--begin::Menu-->
+                                            <div class="menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-5 my-lg-0 align-items-stretch"
+                                                id="#kt_header_menu" data-kt-menu="true">
+                                                <div data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
+                                                    class="menu-item here show menu-lg-down-accordion me-lg-1">
+                                                    <span class="menu-link py-3">
+                                                        <span class="menu-title">
+                                                            {{ Auth::user()->contact_no }}
+                                                        </span>
+                                                        <span class="menu-arrow d-lg-none"></span>
+                                                    </span>
+
+                                                </div>
+
+                                            </div>
+                                            <!--end::Menu-->
+                                        </div>
+                                        {{-- <div data-kt-swapper="true"
                                             class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                                             <!--begin::Page Title-->
                                             <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">
@@ -148,7 +190,7 @@
 
                                             </h1>
                                             <!--end::Page Title-->
-                                        </div>
+                                        </div> --}}
                                     </div>
                                     <div class="cursor-pointer symbol symbol-30px symbol-md-40px"
                                         data-kt-menu-trigger="click" data-kt-menu-attach="parent"
