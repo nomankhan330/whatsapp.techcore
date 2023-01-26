@@ -67,22 +67,55 @@ function toastrAll(status, message) {
     }
 }
 
-$(document).ajaxError(function myErrorHandler(event, xhr, ajaxOptions, thrownError) {
-
-    if (xhr.status === 401) {
+$(document).ajaxError(function myErrorHandler(
+    event,
+    xhr,
+    ajaxOptions,
+    thrownError
+) {
+    $('button[id="submitbutton"]').removeAttr("disabled");
+    $(".indicator-progress").css("display", "none");
+    $(".indicator-label").css("display", "block");
+    if (xhr.status == 401) {
         alert("Your Session Expire Please Login Again");
-
-       /* Swal.fire({
-            text: "Your Session Expired Please Login Again!",
-            icon: "success",
-            buttonsStyling: false,
-            confirmButtonText: "Ok, got it!",
-            customClass: {
-                confirmButton: "btn btn-primary"
-            }
-        });*/
-
         window.location.reload();
     }
-
+    if (xhr.status == 422) {
+        // when status code is 422, it's a validation issue
+        $("#" + event.target.forms[2].id)
+            .find("span.myClass")
+            .remove();
+        $.each(xhr.responseJSON.errors, function(i, error) {
+            console.log(error);
+            var el = $(document).find('[name="' + i + '"]');
+            if (el.length === 0) {
+                var el = $(document).find('[name="' + i + '[]"]');
+            }
+            if (el[0].type == "select-multiple") {
+                spanerror = $(
+                    '<span class="myClass" style="color: red;">' +
+                    error[0] +
+                    "</span>"
+                );
+                el[0].parentElement.children[2].after(spanerror[0]);
+            } else if (el[0].type == "select-one") {
+                spanerror = $(
+                    '<span class="myClass" style="color: red;">' +
+                    error[0] +
+                    "</span>"
+                );
+                el[0].parentElement.children[2].after(spanerror[0]);
+            } else {
+                el.after(
+                    $(
+                        '<span class="myClass" style="color: red;">' +
+                        error[0] +
+                        "</span>"
+                    )
+                );
+            }
+        });
+    } else if (xhr.status == 500) {
+        alert("Something went wrong call the admin");
+    }
 });

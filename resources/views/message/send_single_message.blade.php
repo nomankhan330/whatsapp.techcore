@@ -1,6 +1,4 @@
-    <form id="contact_from" class="form" method="POST" action="{{--{{ route('message.create') }}--}}">
-        @method('PUT')
-
+    <form id="message_form" class="form" method="POST" action="{{ route('message') }}">
         @csrf
         <div class="d-flex flex-column scroll-y me-n7 pe-7" id="" data-kt-scroll="true"
              data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
@@ -48,7 +46,7 @@
 
             <div class="fv-row mb-7">
                 <label class="required fw-bold fs-6 mb-2 required">Broadcast Name</label>
-                <input type="text" value="" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Enter Broadcast Name" name="broadcast" required />
+                <input type="text" value="" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Enter Broadcast Name" id="broadcast_name" name="broadcast_name" required />
             </div>
 
             <div id="divTemplatePreview" style="display: none;">
@@ -151,14 +149,23 @@
 
                                 let _param_html = `<div class="fv-row mb-7" id="cloneDiv">
                                                     <label class="required fw-bold fs-6 mb-2 required">Parameter Name ::params</label>
-                                                    <input type="text" value="" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Enter Value" name="param_" required />
+                                                    <input type="text" id="" name=":::params" value="" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Enter Value" required />
                                                   </div>`;
 
                                 $("#divParameters").html('');
 
+                                let _param_replace = ""; var obj = {};
+
                                 for (let i = 0; i < params.length; i++) {
                                     console.log(params[i]);
-                                    $("#divParameters").append(_param_html.replace('::params',params[i]));
+                                    _param_replace = _param_html.replace('::params',params[i])
+                                    _param_replace = _param_replace.replace(':::params','key_'+params[i]);
+
+                                    /*var name = params[i];
+                                    var val = $("#key_"+params[i]).val();
+                                    obj[name] = val;*/
+
+                                    $("#divParameters").append(_param_replace);
                                 }
 
                             }else{
@@ -199,13 +206,15 @@
         });
 
         function messageSubmit() {
+
             $('button[id="submitbutton"]').attr('disabled', 'disabled');
             $('.indicator-label').css('display', 'none');
             $('.indicator-progress').css('display', 'block');
+
             $.ajax({
-                url: $("#contact_from").attr('action'),
+                url: $("#message_form").attr('action'),
                 method: 'POST',
-                data: $('#contact_from').serialize(),
+                data: $('#message_form').serialize(),
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 },
@@ -214,22 +223,22 @@
                     toastrAll(result.status, result.message);
                     $('#right_modal_close').click();
                 },
-                error: function(err) {
-                    $('button[id="submitbutton"]').removeAttr('disabled');
-                    $('.indicator-progress').css('display', 'none');
-                    $('.indicator-label').css('display', 'block');
-                    if (err.status == 422) { // when status code is 422, it's a validation issue
-                        $('#contact_from').find('span.yourclass').remove()
-
-                        $.each(err.responseJSON.errors, function(i, error) {
-                            var el = $(document).find('[name="' + i + '"]');
-                            el.after($('<span class="yourclass" style="color: red;">' + error[0] +
-                                '</span>'));
-                        });
-                    } else if (err.status == 500) {
-                        alert("Something went wrong call the admin");
-                    }
-                }
+                // error: function(err) {
+                //     $('button[id="submitbutton"]').removeAttr('disabled');
+                //     $('.indicator-progress').css('display', 'none');
+                //     $('.indicator-label').css('display', 'block');
+                //     if (err.status == 422) { // when status code is 422, it's a validation issue
+                //         $('#contact_from').find('span.yourclass').remove()
+                //
+                //         $.each(err.responseJSON.errors, function(i, error) {
+                //             var el = $(document).find('[name="' + i + '"]');
+                //             el.after($('<span class="yourclass" style="color: red;">' + error[0] +
+                //                 '</span>'));
+                //         });
+                //     } else if (err.status == 500) {
+                //         alert("Something went wrong call the admin");
+                //     }
+                // }
             });
         }
     </script>

@@ -5,6 +5,9 @@ use App\Models\Contact;
 use App\Models\Template;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\MessagesImport;
 
 class MessageController extends Controller
 {
@@ -54,12 +57,69 @@ class MessageController extends Controller
         preg_match_all('/{{(.*?)}}/', $template[0]->body_text, $matches);
         $params = $matches[0];
         $params = array_values(array_unique($params));
-        //dd($params);
+
+        /*$dataArray=array();
+
+        for ($i=0; $i < count($params); $i++)
+        {
+            $a = str_replace("{{","",$params[$i]);
+            $a = str_replace("}}","",$a);
+            //dd($a);
+
+            array_push($dataArray,$a);
+
+        }
+        //dd($dataArray);
+        $final = array_merge($dataArray,$params);*/
 
         return response()->json([
             'code' => '200',
             'data' => $template,
-            'params'=> $params
+            'params'=> $params,
+            /*'dataArray'=> $dataArray,
+            'finals'=> $final,*/
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        /*$request->validate([
+            'contact_number' => 'required',
+            'template_name' => 'required',
+            'broadcast_name' => 'required',
+        ]);*/
+
+        $userId = Auth::user()->id;
+        $whatsAppNumber = Auth::User()->contact_no;
+
+        if ($request->hasFile('file')){
+            Excel::import(new MessagesImport, $request->file);
+        }
+
+        $request->merge([
+            'user_id' => 'khan',
+        ]);
+
+        dd($request->all());
+
+
+        /*$userId = Auth::user()->id;
+
+        DB::transaction(function () use ($request,$userId) { // Start the transaction
+            $contactNumber =$request->country_code.$request->contact_number;
+            $data = Contact::create([
+                'user_id' => $userId,
+                'country_code'=>$request->country_code,
+                'contact_name' => $request->contact_name,
+                'contact_number' => $contactNumber,
+                'contact_status' => 'valid',
+            ]);
+        }); //
+
+        return response()->json([
+            'code' => '200',
+            'message' => 'Data successfully added',
+            'status' => 'success',
+        ]);*/
     }
 }

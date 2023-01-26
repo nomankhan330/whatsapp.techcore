@@ -347,7 +347,7 @@
     function addDataSingleMessage() {
 
         let _footersidebarsingle = `<button type="button" id="right_modal_close" class="btn btn-light me-3">Discard</button>
-                            <button id="btnSingleMessageSubmit" type="button" onclick="" class="btn btn-lg btn-primary">
+                            <button id="submitbutton" type="button" onclick="messageSubmit()" class="btn btn-lg btn-primary">
                                 <label class="indicator-label">Submit</label>
                                 <label class="indicator-progress">Please wait...
                                     <label class="spinner-border spinner-border-sm align-middle ms-2"></label></label>
@@ -370,10 +370,10 @@
         });
     }
 
-    function addDataBulkMessage() {
+    /*function addDataBulkMessage() {
 
         let _footersidebarbulk = `<button type="button" id="right_modal_close" class="btn btn-light me-3">Discard</button>
-                                    <button id="btnSingleMessageSubmit" type="button" onclick="" class="btn btn-lg btn-primary">
+                                    <button id="btnBulkMessageSubmit" type="button" onclick="" class="btn btn-lg btn-primary">
                                         <label class="indicator-label">Submit</label>
                                         <label class="indicator-progress">Please wait...
                                             <label class="spinner-border spinner-border-sm align-middle ms-2"></label></label>
@@ -394,5 +394,5 @@
 
             }
         });
-    }
+    }*/
 </script>
