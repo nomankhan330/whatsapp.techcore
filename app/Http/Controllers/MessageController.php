@@ -95,12 +95,23 @@ class MessageController extends Controller
         if ($request->hasFile('file')){
             Excel::import(new MessagesImport, $request->file);
         }
+        // $dataKeyArr= array();
+        $template=Template::where('id',$request->template_name)->get();
+        $body=$template[0]->body_text;
+        foreach ($request->all() as $key => $value) {
+            if(str_contains($key, 'key_'))
+            {
+                $va=explode('key_',$key);
+                // $dataKeyArr[$va[1]]=$value;
+                $body=str_replace($va[1],$value,$body);
+            }
+        }
+        dd($body);
 
-        $request->merge([
-            'user_id' => 'khan',
-        ]);
+        // $request->merge([
+        //     'user_id' => 'khan',
+        // ]);
 
-        dd($request->all());
 
 
         /*$userId = Auth::user()->id;

@@ -77,6 +77,7 @@ print_r($decode->website_button_text);
             $file = $request->file('header_file');
             $filename = date('YmdHi') . $file->getClientOriginalName();
             $size = $file->getSize();
+            $fileExt=$file->getClientOriginalExtension();
             $file->move($destinationPath, $filename);
             $path = "uploads/templates/" .$userId . "/". $filename;
             $headerValue = $path;
@@ -121,6 +122,7 @@ print_r($decode->website_button_text);
                 'header_type' => $request->header_type,
                 'header_value' => $headerValue,
                 'body_text' => $request->body_text,
+                'header_type_ext' => $request->fileExt,
                 'footer_text' => $request->footer_text,
                 'template_status' => "Approved",
                 'button_type' => $request->select_button,
