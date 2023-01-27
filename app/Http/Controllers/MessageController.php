@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Contact;
 use App\Models\Template;
 use Illuminate\Http\Request;
+use App\Models\Message;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -96,7 +97,7 @@ class MessageController extends Controller
             Excel::import(new MessagesImport, $request->file);
         }
         // $dataKeyArr= array();
-        $template=Template::where('id',$request->template_name)->get();
+        $template=Template::with('templateCategory','templateLanguage')->where('id',$request->template_name)->get();
         $body=$template[0]->body_text;
         foreach ($request->all() as $key => $value) {
             if(str_contains($key, 'key_'))
@@ -106,9 +107,73 @@ class MessageController extends Controller
                 $body=str_replace($va[1],$value,$body);
             }
         }
-        dd($request);
-
-
+        $headerType=$template[0]->header_type;
+        $buttonType=$template[0]->button_type;
+        $dataArr=array();
+        $dataArr['messaging_product']="whatsapp";
+        $dataArr['to']=$request->contact_number;
+        $dataArr['type']="template";
+        $templateArr=array();
+        $templateArr['name']=$template[0]->templateCategory->fullname; // fullname // category
+        $langArr=array();
+        $langArr['code']=$template[0]->templateLanguage->shortname;
+        $langArr['policy']='deterministic';
+        $templateArr['language']=$langArr;
+        $componentsArr=array();
+        if($headerType =='media')
+        {
+            $componentsArrs=array();
+            $componentsArrs['type']='header';
+            $parametersArr=array();
+            $parametersArr['type']='image';
+            $parametersArr['image']=array("link" => "http(s)://the-image-url");
+            $new=array();
+            array_push($new,$parametersArr);
+            $componentsArrs['parameters']=$new;
+            array_push($componentsArr,$componentsArrs);
+        }
+        $componentsArrs=array();
+        $componentsArrs['type']='body';
+        $parametersArr=array();
+        $parametersArr['type']='text';
+        $parametersArr['text']=$body;
+        $new=array();
+        array_push($new,$parametersArr);
+        $componentsArrs['parameters']=$new;
+        array_push($componentsArr,$componentsArrs);
+        if($buttonType == 'quick_reply')
+        {
+            $ii=0;
+            foreach ($template[0]->button_value as $key => $value) {
+                $componentsArrs=array();
+                $componentsArrs['type']='button';
+                $componentsArrs['sub_type']='quick_reply';
+                $componentsArrs['index']=$ii;
+                $parametersArr=array();
+                $parametersArr['type']='text';
+                $parametersArr['text']=$value;
+                $new=array();
+                array_push($new,$parametersArr);
+                $componentsArrs['parameters']=$new;
+                array_push($componentsArr,$componentsArrs);
+                $ii++;
+            }
+        }
+        $templateArr['components']= $componentsArr;
+        
+        $dataArr['template']=$templateArr;
+        $dataArr=json_encode($dataArr);
+        $data = Message::create([
+            'user_id' => $userId,
+            'template_id'=>$request->template_name,
+            'whatsapp_number' => $whatsAppNumber, // what is this
+            'contact_number' => $request->contact_number,
+            'broadcast_name' => $request->broadcast_name,
+            'message_type' => "Session",
+            'message' => $dataArr,
+            'is_sent' => '0',
+        ]);
+        // button_type
         /*$userId = Auth::user()->id;
 
         DB::transaction(function () use ($request,$userId) { // Start the transaction
@@ -122,10 +187,11 @@ class MessageController extends Controller
             ]);
         }); //
 
+        */
         return response()->json([
             'code' => '200',
             'message' => 'Data successfully added',
             'status' => 'success',
-        ]);*/
+        ]);
     }
 }
