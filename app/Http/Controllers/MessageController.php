@@ -106,12 +106,7 @@ class MessageController extends Controller
                 $body=str_replace($va[1],$value,$body);
             }
         }
-        dd($body);
-
-        // $request->merge([
-        //     'user_id' => 'khan',
-        // ]);
-
+        dd($request);
 
 
         /*$userId = Auth::user()->id;
