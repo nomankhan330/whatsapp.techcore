@@ -585,7 +585,7 @@
                 toastrAll(result.status, result.message);
                 $('#right_modal_close').click();
             },
-            error: function (err) {
+            /*error: function (err) {
 
                 $('button[id="btnSave"]').removeAttr('disabled');
                 $('.indicator-progress').css('display', 'none');
@@ -602,7 +602,7 @@
                     alert("Something went wrong call the admin");
                 }
 
-            }
+            }*/
         });
     }
 
