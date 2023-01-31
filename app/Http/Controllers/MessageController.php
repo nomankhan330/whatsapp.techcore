@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\MessagesImport;
+use Datatables;
 
 class MessageController extends Controller
 {
@@ -160,16 +161,18 @@ class MessageController extends Controller
             }
         }
         $templateArr['components']= $componentsArr;
-        
+
         $dataArr['template']=$templateArr;
         $dataArr=json_encode($dataArr);
+
         $data = Message::create([
             'user_id' => $userId,
             'template_id'=>$request->template_name,
-            'whatsapp_number' => $whatsAppNumber, // what is this
+            'whatsapp_number' => $whatsAppNumber,
             'contact_number' => $request->contact_number,
             'broadcast_name' => $request->broadcast_name,
-            'message_type' => "Session",
+            'message_type' => "Template",
+            'read_status' => "Delivered",
             'message' => $dataArr,
             'is_sent' => '0',
         ]);
@@ -193,5 +196,28 @@ class MessageController extends Controller
             'message' => 'Data successfully added',
             'status' => 'success',
         ]);
+    }
+
+    public function viewOutgoingMessages(Request $request)
+    {
+        if ($request->ajax()) {
+
+            $userId = Auth::user()->id;
+            $whatsAppNumber = Auth::User()->contact_no;
+
+            $message = Message::with('template')->where('user_id',$userId)->
+            when($request->read_status, function ($query, $status) {
+                return $query->where('read_status', $status);
+            })->get();
+
+            return Datatables::of($message)
+                ->addIndexColumn()
+                ->make();
+        }
+
+        //dd($message);
+        //dd($message[0]->template->template_name);
+
+        return view('message/view_outgoing_messages');
     }
 }

@@ -110,8 +110,6 @@
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotune/general/gen014.svg-->
 
-
-
                                 <span class="svg-icon svg-icon-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                         width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -185,8 +183,8 @@
                         </a>
                     </div>
 
-                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                        <span class="menu-link">
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Route::currentRouteName() == 'view_outgoing_messages' || Route::currentRouteName() == 'e-forms' ? 'show' : '' }}">
+                        <span class="menu-link ">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotune/finance/fin002.svg-->
                                 <span class="svg-icon svg-icon-2">
@@ -211,7 +209,7 @@
                                 </a>
                             </div>
                             <div class="menu-item">
-                                <a class="menu-link" href="#">
+                                <a class="menu-link {{ Route::currentRouteName() == 'view_outgoing_messages' ? 'active' : '' }}" href="{{ route('view_outgoing_messages') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>

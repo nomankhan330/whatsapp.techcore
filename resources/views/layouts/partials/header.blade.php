@@ -111,6 +111,7 @@
                                                     {{ Route::currentRouteName() == 'dashboard' ? 'Dashboard' : '' }}
                                                     {{ Route::currentRouteName() == 'client.index' ? 'Clients' : '' }}
                                                     {{ Route::currentRouteName() == 'contact.index' ? 'Contacts' : '' }}
+                                                    {{ Route::currentRouteName() == 'view_outgoing_messages' ? 'View Outgoing Messages' : '' }}
                                                 </span>
                                                 <span class="menu-arrow d-lg-none"></span>
                                             </span>

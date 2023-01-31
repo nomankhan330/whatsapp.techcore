@@ -36,6 +36,11 @@ class Template extends Model
         return $this->belongsTo(TemplateLanguage::class,'template_language');
     }
 
+    public function message()
+    {
+        return $this->hasOne(Message::class, 'template_id');
+    }
+
     protected function buttonValue(): Attribute
     {
         return Attribute::make(
