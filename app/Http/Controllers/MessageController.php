@@ -97,9 +97,10 @@ class MessageController extends Controller
         }
         else
         {
+
             $arr = array();
             foreach ($request->all() as $key => $value) {
-                if($key != 'param_' || $key != '_token')
+                if($key != 'param_')
                 {
                     $arr[$key] = ['required'];
                 }
@@ -139,7 +140,7 @@ class MessageController extends Controller
                 'status' => 'success',
             ]);
         }
-       
+
         foreach ($request->all() as $key => $value) {
             if(str_contains($key, 'key_'))
             {
