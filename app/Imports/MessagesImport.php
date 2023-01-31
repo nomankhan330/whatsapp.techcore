@@ -104,6 +104,7 @@ class MessagesImport implements ToModel, WithHeadingRow,WithValidation
         return new MessageBulkDetail([
             'bulk_id'     => $this->bulkId,
             'user_id'    => $userId,
+            "template_id"=>$this->template[0]->id,
             "template_name"=>$this->template[0]->template_name,
             'contact_number' => $row['Whats App Number With Country Code'],
             'message_type' => 'Template',
