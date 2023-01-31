@@ -4,7 +4,7 @@
             data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
             data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
             data-kt-scroll-offset="300px">
-
+            <input type="text" name='single_or_bulk' value="not bulk" hidden />
             <div class="fv-row mb-7">
                 <label class="required fw-bold fs-6 mb-2">Official Whats App Number</label>
                 <input type="text" value="{{ $whatsAppNumber }}" class="form-control form-control-solid mb-3 mb-lg-0"

@@ -6,9 +6,10 @@ use App\Models\Template;
 use Illuminate\Http\Request;
 use App\Models\Message;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\MessagesImport;
+use App\Models\MessageBulk;
+use Illuminate\Support\Facades\DB;
 use Datatables;
 
 class MessageController extends Controller
@@ -85,21 +86,60 @@ class MessageController extends Controller
 
     public function store(Request $request)
     {
-        /*$request->validate([
-            'contact_number' => 'required',
-            'template_name' => 'required',
-            'broadcast_name' => 'required',
-        ]);*/
-
+        if($request->single_or_bulk == 'bulk')
+        {
+            $request->validate([
+                'template_name' => 'required',
+                'broadcast' => 'required',
+                'scheduled_message_send' => 'required',
+                'scheduled_at'=> $request->scheduled_message_send == 'Now' ? 'nullable' : 'required',
+            ]);
+        }
+        else
+        {
+            $arr = array();
+            foreach ($request->all() as $key => $value) {
+                if($key != 'param_' || $key != '_token')
+                {
+                    $arr[$key] = ['required'];
+                }
+            }
+            $request->validate($arr);
+        }
         $userId = Auth::user()->id;
         $whatsAppNumber = Auth::User()->contact_no;
-
-        if ($request->hasFile('file')){
-            Excel::import(new MessagesImport, $request->file);
-        }
-        // $dataKeyArr= array();
         $template=Template::with('templateCategory','templateLanguage')->where('id',$request->template_name)->get();
         $body=$template[0]->body_text;
+        if ($request->hasFile('file')){
+
+            DB::beginTransaction();
+            $messageBulk=MessageBulk::create([
+                "user_id"=>$userId,
+                "template_id"=>$request->template_name,
+                "template_name"=>$template[0]->template_name,
+                "whatsapp_number"=>$whatsAppNumber,
+                "broadcast_name"=>$request->broadcast,
+                "broadcast_type"=>$request->scheduled_message_send,
+                "scheduled_at"=>$request->scheduled_at,
+            ]);
+            try {
+                Excel::import(new MessagesImport($template,$messageBulk->id), $request->file);
+                DB::commit();
+            } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+                DB::rollBack();
+                return response()->json([
+                    'code' => '200',
+                    'message' => 'Empty parameter',
+                    'status' => 'error',
+                ]);
+            }
+            return response()->json([
+                'code' => '200',
+                'message' => 'Data successfully added',
+                'status' => 'success',
+            ]);
+        }
+       
         foreach ($request->all() as $key => $value) {
             if(str_contains($key, 'key_'))
             {
