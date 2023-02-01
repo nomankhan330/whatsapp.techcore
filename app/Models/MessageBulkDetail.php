@@ -18,4 +18,7 @@ class MessageBulkDetail extends Model
     protected $fillable = [
         'bulk_id','user_id','contact_number','message_type','message','is_sent','read_status','message_status','template_name','template_id'
     ];
+    protected $casts = [
+        'created_at' => 'date:Y-m-d H:i:s',
+    ];
 }

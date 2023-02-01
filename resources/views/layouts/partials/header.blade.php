@@ -111,6 +111,8 @@
                                                     {{ Route::currentRouteName() == 'dashboard' ? 'Dashboard' : '' }}
                                                     {{ Route::currentRouteName() == 'client.index' ? 'Clients' : '' }}
                                                     {{ Route::currentRouteName() == 'contact.index' ? 'Contacts' : '' }}
+                                                    {{ Route::currentRouteName() == 'scheduled_detail.index' ? 'View Scheduled Details' : '' }}
+                                                    {{ Route::currentRouteName() == 'scheduled_detail.show' ? 'View Scheduled Messages' : '' }}
                                                     {{ Route::currentRouteName() == 'view_outgoing_messages' ? 'View Outgoing Messages' : '' }}
                                                 </span>
                                                 <span class="menu-arrow d-lg-none"></span>

@@ -179,7 +179,8 @@
                     </div>
 
                     <div class="menu-item">
-                        <a class="menu-link" href="javascript:void(0)">
+                        <a class="menu-link {{ Route::currentRouteName() == 'scheduled_detail.index' || Route::currentRouteName() == 'scheduled_detail.show' ? 'active' : '' }}"
+                            href="{{ route('scheduled_detail.index') }}">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotune/general/gen014.svg-->
                                 <span class="svg-icon svg-icon-2 svg-icon-primary">

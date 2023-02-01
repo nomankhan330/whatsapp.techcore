@@ -85,11 +85,17 @@
 <script>
     $(document).ready(function() {
 
+        var now = new Date();
+        now.setMinutes(now.getMinutes() + 30); // timestamp
+        now = new Date(now);
+        let minTimeNew = now.getHours() + ":" + now.getMinutes();
+
         $(".flatPicker").flatpickr({
             enableTime: true,
             dateFormat: "Y-m-d H:i",
             time_24hr: true,
             minDate: "today",
+            minTime: minTimeNew,
         });
 
         $('.js-example-basic-single').select2();
