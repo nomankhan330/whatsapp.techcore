@@ -29,7 +29,7 @@
         <div class="fv-row mb-7">
             <label class="required fw-bold fs-6 mb-2 required">Broadcast Name</label>
             <input type="text" value="" class="form-control form-control-solid mb-3 mb-lg-0"
-                placeholder="Enter Broadcast Name" name="broadcast" required />
+                placeholder="Enter Broadcast Name" name="broadcast_name" required />
         </div>
 
         <div id="divTemplatePreview" style="display: none;">
@@ -183,8 +183,17 @@
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             },
             success: function(result) {
+
+                if (result.code != 422){
+                    $('#right_modal_close').click();
+                }
+
+                $('button[id="submitbutton"]').removeAttr("disabled");
+                $(".indicator-progress").css("display", "none");
+                $(".indicator-label").css("display", "block");
+
                 toastrAll(result.status, result.message);
-                $('#right_modal_close').click();
+
             },
             cache: false,
             contentType: false,

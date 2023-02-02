@@ -186,8 +186,9 @@
                     {
                         data: 'scheduled_at',
                         name: 'scheduled_at',
+                        class: 'text-center',
                         render: function(data) {
-                            return data == null ? '------------' : `${data}`;
+                            return data == null ? '-' : `${data}`;
                         }
                     },
                     {
@@ -222,7 +223,7 @@
                                     <a href="${url}" class="menu-link px-3">View</a>
                                 </div>
                                 <div class="menu-item px-3">
-                                    <a onclick="editData('${row.id}')" class="menu-link px-3">Reschedul</a>
+                                    <a onclick="editData('${row.id}')" class="menu-link px-3">Reschedule</a>
                                 </div>
                                 <div class="menu-item px-3">
                                     <a  onclick="sweetAlertDelete('${row.id}')" class="menu-link px-3" data-kt-users-table-filter="delete_row">Delete</a>

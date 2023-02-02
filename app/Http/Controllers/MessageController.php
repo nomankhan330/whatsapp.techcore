@@ -90,7 +90,8 @@ class MessageController extends Controller
         {
             $request->validate([
                 'template_name' => 'required',
-                'broadcast' => 'required',
+                'broadcast_name' => 'required',
+                'file' => 'required|max:10000|mimes:xlsx',
                 'scheduled_message_send' => 'required',
                 'scheduled_at'=> $request->scheduled_message_send == 'Now' ? 'nullable' : 'required',
             ]);
@@ -124,12 +125,12 @@ class MessageController extends Controller
                 "scheduled_at"=>$request->scheduled_at,
             ]);
             try {
-                Excel::import(new MessagesImport($template,$messageBulk->id), $request->file);
+                Excel::import(new MessagesImport($template,$messageBulk->id,$request->broadcast_name), $request->file);
                 DB::commit();
             } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
                 DB::rollBack();
                 return response()->json([
-                    'code' => '200',
+                    'code' => '422',
                     'message' => 'Empty parameter',
                     'status' => 'error',
                 ]);
@@ -209,6 +210,7 @@ class MessageController extends Controller
         $data = Message::create([
             'user_id' => $userId,
             'template_id'=>$request->template_name,
+            'template_name'=>$template[0]->template_name,
             'whatsapp_number' => $whatsAppNumber,
             'contact_number' => $request->contact_number,
             'broadcast_name' => $request->broadcast_name,
