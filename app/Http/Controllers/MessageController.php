@@ -263,4 +263,32 @@ class MessageController extends Controller
 
         return view('message/view_outgoing_messages');
     }
+    public function broadcast(Request $request)
+    {
+        if ($request->ajax()) {
+            $userId = Auth::user()->id;
+            $data = DB::select(DB::raw("SELECT id,broadcast_name,template_name, 'Single' `type`, '-' scheduled_at FROM messages where user_id = '$userId'
+            UNION
+            SELECT d.id, d.broadcast_name,d.template_name, 'Scheduled', d.scheduled_at `type`
+            FROM messages_bulk d where user_id = '$userId'"));
+            return Datatables::of($data)
+            ->addColumn('action', function($row) {
+                $count=$this->getStatusCountMessage($row->id);
+                $btn = '<span class="badge badge-primary"
+                style="font-size: 15px;">'.$count[0]->Scheduled.'</span>
+            <span class="badge badge-danger" style="font-size: 15px; ">'.$count[0]->Failed.'</span>
+            <span class="badge badge-success" style="font-size: 15px; ">'.$count[0]->Sent.'</span>';
+                return $btn;
+        })
+                ->make();
+        }
+        return view('message/broadcast_index');
+    }
+    private function getStatusCountMessage($id)
+    {
+        return DB::select(DB::raw("SELECT
+        (SELECT COUNT(1) FROM messages_bulk_details WHERE message_status = 'Scheduled' AND bulk_id = '$id') Scheduled,
+        (SELECT COUNT(1) FROM messages_bulk_details WHERE message_status = 'Sent' AND bulk_id = '$id') Sent,
+        (SELECT COUNT(1) FROM messages_bulk_details WHERE message_status = 'Failed' AND bulk_id = '$id') Failed"));
+    }
 }

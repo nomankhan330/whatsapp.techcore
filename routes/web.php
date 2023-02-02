@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('template', TemplateController::class);
     Route::resource('scheduled_detail', ScheduledDetailController::class);
     Route::delete('scheduled_detail_message_delete/{id}', [ScheduledDetailController::class, 'deleteMessageBulkDetail'])->name('scheduled_detail_message_delete');
+    Route::get('get_broadcast', [MessageController::class, 'broadcast'])->name('get_broadcast');
     Route::get('template_variable', [TemplateController::class, 'templateVariable'])->name('template_variable');
     Route::get('send_single_message', [MessageController::class, 'index'])->name('send_single_message');
     Route::get('send_bulk_message', [MessageController::class, 'sendBulkMessage'])->name('send_bulk_message');
