@@ -268,7 +268,7 @@ class MessageController extends Controller
             FROM messages_bulk d where user_id = '$userId'"));
             return Datatables::of($data)
             ->addColumn('action', function($row) {
-                $count=$this->getStatusCountMessage($row->id);
+                $count=$this->getStatusCountMessage($row->type,$row->id);
                 $btn = '<span class="badge badge-primary"
                 style="font-size: 15px;">'.$count[0]->Scheduled.'</span>
             <span class="badge badge-danger" style="font-size: 15px; ">'.$count[0]->Failed.'</span>
@@ -279,12 +279,22 @@ class MessageController extends Controller
         }
         return view('message/broadcast_index');
     }
-
-    private function getStatusCountMessage($id)
+    private function getStatusCountMessage($status,$id)
     {
-        return DB::select(DB::raw("SELECT
-        (SELECT COUNT(1) FROM messages_bulk_details WHERE message_status = 'Scheduled' AND bulk_id = '$id') Scheduled,
-        (SELECT COUNT(1) FROM messages_bulk_details WHERE message_status = 'Sent' AND bulk_id = '$id') Sent,
-        (SELECT COUNT(1) FROM messages_bulk_details WHERE message_status = 'Failed' AND bulk_id = '$id') Failed"));
+        if($status == 'Scheduled')
+        {
+            return DB::select(DB::raw("SELECT
+            (SELECT COUNT(1) FROM messages_bulk_details WHERE message_status = 'Scheduled' AND bulk_id = '$id') Scheduled,
+            (SELECT COUNT(1) FROM messages_bulk_details WHERE message_status = 'Sent' AND bulk_id = '$id') Sent,
+            (SELECT COUNT(1) FROM messages_bulk_details WHERE message_status = 'Failed' AND bulk_id = '$id') Failed"));
+        }
+        else
+        {
+            return DB::select(DB::raw("SELECT
+            (SELECT COUNT(1) FROM messages_bulk_details WHERE message_status = 'Scheduled' AND id = '$id') Scheduled,
+            (SELECT COUNT(1) FROM messages_bulk_details WHERE message_status = 'Sent' AND id = '$id') Sent,
+            (SELECT COUNT(1) FROM messages_bulk_details WHERE message_status = 'Failed' AND id = '$id') Failed"));
+        }
+        
     }
 }
