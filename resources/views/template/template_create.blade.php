@@ -570,7 +570,7 @@
         }
         return false;*/
 
-        $('button[id="btnSave"]').attr('disabled', 'disabled');
+        $('button[id="submitbutton"]').attr('disabled', 'disabled');
         $('.indicator-label').css('display', 'none');
         $('.indicator-progress').css('display', 'block');
 

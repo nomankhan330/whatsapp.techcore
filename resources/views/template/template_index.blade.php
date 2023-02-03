@@ -139,31 +139,7 @@
                                         </tr>
                                         </thead>
                                         <tbody class="fw-bold text-gray-600">
-                                            <tr>
-                                                <td>1</td>
-                                                <td>bodylink</td>
-                                                <td>Ticket Update</td>
-                                                <td><span class="badge badge-success">Approved</span></td>
-                                                <td>2022-12-27 11:07:16</td>
-                                                <td>2022-12-29 21:20:16</td>
-                                                <td class=" text-end">
-                                                    <a href="#" class="btn btn-light btn-active-light-primary btn-sm show menu-dropdown" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
-                                                        <span class="svg-icon svg-icon-5 m-0">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                                <path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z" fill="black"></path>
-                                                            </svg>
-                                                        </span>
-                                                    </a>
-                                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4 show" data-kt-menu="true" style="z-index: 105; position: fixed; inset: auto 0px 0px auto; margin: 0px; transform: translate3d(-59px, -5px, 0px);" data-popper-placement="top-end">
-                                                        <div class="menu-item px-3">
-                                                            <a onclick="editClient('2')" class="menu-link px-3">View</a>
-                                                        </div>
-                                                        <div class="menu-item px-3">
-                                                            <a onclick="sweetAlertDelete('2')" class="menu-link px-3" data-kt-users-table-filter="delete_row">Delete</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -183,13 +159,13 @@
     <script type="text/javascript">
 
         let _footer = `<button type="button" id="right_modal_close" class="btn btn-light me-3">Discard</button>
-                            <button id="btnSave" onclick="submitTemplate()" type="button" class="btn btn-lg btn-primary">
+                            <button id="submitbutton" onclick="submitTemplate()" type="button" class="btn btn-lg btn-primary">
                                 <label class="indicator-label">Submit</label>
                                 <label class="indicator-progress">Please wait...
                                     <label class="spinner-border spinner-border-sm align-middle ms-2"></label></label>
                             </button>`
 
-        let _footer_view = `<button id="btnSave" onclick=" $('#right_modal_close').click() " type="button" class="btn btn-lg btn-primary">
+        let _footer_view = `<button id="btnBack" onclick=" $('#right_modal_close').click() " type="button" class="btn btn-lg btn-primary">
                                 <label class="indicator-label">Back</label>
                             </button>`
 

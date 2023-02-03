@@ -193,7 +193,8 @@
                 },
                 columns: [{
                         data: 'id',
-                        name: 'id'
+                        name: 'id',
+                        visible: false
                     },
                     {
                         data: 'contact_name',

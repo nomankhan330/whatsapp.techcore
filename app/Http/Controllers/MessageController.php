@@ -19,13 +19,7 @@ class MessageController extends Controller
         $userId = Auth::user()->id;
         $whatsAppNumber = Auth::User()->contact_no;
 
-        $contact = Contact::select('*')->where('contact_status','valid')->get();
-
-        /*$template = Template::select('*')->where([
-            'template_status' => 'Approved',
-            'user_id' => $userId
-        ])->get();*/
-
+        $contact = Contact::select('*')->where('contact_status','valid')->where('user_id',$userId)->get();
 
         $templates = Template::select('id','template_name')->where('user_id',$userId)->where('template_status','Approved')->get();
 
@@ -263,6 +257,7 @@ class MessageController extends Controller
 
         return view('message/view_outgoing_messages');
     }
+
     public function broadcast(Request $request)
     {
         if ($request->ajax()) {
@@ -284,6 +279,7 @@ class MessageController extends Controller
         }
         return view('message/broadcast_index');
     }
+
     private function getStatusCountMessage($id)
     {
         return DB::select(DB::raw("SELECT

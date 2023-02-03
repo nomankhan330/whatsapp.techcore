@@ -6,6 +6,8 @@ Quick feedback
 2) On Save Template, if mandatory fields not filled then it fire validation message, but submit button remains disable.
 3) I created a new client account and added one contact it generates Id as 5, It should starts from 1 or simple hide Id column 
 4) I only added Two Clients and it display three contacts in sender contact list while using send single message screen.
+
 5) Add a new screen of Contact Group (Just Contact Group Name Field)
 6) Add a Selection of Contact Group in Add Contact Form
+
 7) Display Template while creating template, (please discuss if any confusion)
