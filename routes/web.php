@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactGroupController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::resource('client', ClientController::class);
+    Route::resource('contact_group', ContactGroupController::class);
     Route::resource('contact', ContactController::class);
     Route::resource('template', TemplateController::class);
     Route::resource('scheduled_detail', ScheduledDetailController::class);

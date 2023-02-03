@@ -265,7 +265,7 @@
                 if (result.value) {
                     Swal.fire(
                         "Deleted!",
-                        "Your Client has been deleted.",
+                        "Your Data has been deleted.",
                         "success"
                     )
                     deleteClient(id);

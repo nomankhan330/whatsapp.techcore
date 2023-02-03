@@ -264,7 +264,7 @@ class MessageController extends Controller
             $userId = Auth::user()->id;
             $data = DB::select(DB::raw("SELECT id,broadcast_name,template_name, 'Single' `type`, '-' scheduled_at FROM messages where user_id = '$userId'
             UNION
-            SELECT d.id, d.broadcast_name,d.template_name, 'Scheduled' `type`,d.scheduled_at 
+            SELECT d.id, d.broadcast_name,d.template_name, 'Scheduled' `type`,d.scheduled_at
             FROM messages_bulk d where user_id = '$userId'"));
             return Datatables::of($data)
             ->addColumn('action', function($row) {
@@ -291,10 +291,10 @@ class MessageController extends Controller
         else
         {
             return DB::select(DB::raw("SELECT
-            (SELECT COUNT(1) FROM messages_bulk_details WHERE message_status = 'Scheduled' AND id = '$id') Scheduled,
-            (SELECT COUNT(1) FROM messages_bulk_details WHERE message_status = 'Sent' AND id = '$id') Sent,
-            (SELECT COUNT(1) FROM messages_bulk_details WHERE message_status = 'Failed' AND id = '$id') Failed"));
+            (SELECT COUNT(1) FROM messages WHERE message_status = 'Scheduled' AND id = '$id') Scheduled,
+            (SELECT COUNT(1) FROM messages WHERE message_status = 'Sent' AND id = '$id') Sent,
+            (SELECT COUNT(1) FROM messages WHERE message_status = 'Failed' AND id = '$id') Failed"));
         }
-        
+
     }
 }
