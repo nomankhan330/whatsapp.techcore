@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use App\Models\CountryCode;
+use App\Models\ContactGroup;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -44,10 +45,11 @@ class ContactController extends Controller
 
     public function create()
     {
+        $userId = Auth::user()->id;
         $contactNo = Auth::User()->contact_no;
-
+        $contactGroup = ContactGroup::where('user_id', $userId)->get();
         $countryCode=CountryCode::select('code')->where('status','1')->orderby('code','ASC')->groupBy('code')->get();
-        return view('contact/contact_create',compact('countryCode','contactNo'));
+        return view('contact/contact_create',compact('countryCode','contactNo','contactGroup'));
     }
     /**
      * Store a newly created resource in storage.
@@ -68,6 +70,7 @@ class ContactController extends Controller
             $contactNumber =$request->country_code.$request->contact_number;
             $data = Contact::create([
                 'user_id' => $userId,
+                'contact_group_id'=>$request->contact_group_id,
                 'country_code'=>$request->country_code,
                 'contact_name' => $request->contact_name,
                 'contact_number' => $contactNumber,
@@ -89,9 +92,11 @@ class ContactController extends Controller
      */
     public function edit(Contact $contact)
     {
+        $userId = Auth::user()->id;
         $contactNo=Auth::User()->contact_no;
+        $contactGroup = ContactGroup::where('user_id', $userId)->get();
         $countryCode=CountryCode::select('code')->where('status','1')->orderby('code','ASC')->groupBy('code')->get();
-        return view('contact/contact_create',compact('contact','countryCode','contactNo'));
+        return view('contact/contact_create',compact('contact','countryCode','contactNo','contactGroup'));
     }
     /**
      * Update the specified resource in storage.

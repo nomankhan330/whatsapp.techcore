@@ -22,6 +22,7 @@
     </div>
 
     <div class="row">
+
         @if (!isset($contact->contact_number))
 
             <div class="col-md-6">
@@ -42,13 +43,27 @@
                 <div class="fv-row mb-7">
                     <label class="fw-bold fs-6 mb-2">Contact Number</label>
                     <input type="text" name="contact_number"
-                           value="{{ isset($contact->contact_number) ? $contact->contact_number : '' }}"
-                           class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Enter WhatsApp Number" />
+                        value="{{ isset($contact->contact_number) ? $contact->contact_number : '' }}"
+                        class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Enter WhatsApp Number" />
                 </div>
             </div>
 
         @endif
-
+        <div class="col-md-6">
+            <div class="fv-row mb-7">
+                <label class="fw-bold fs-6 mb-2">Group Name</label>
+                <select class="form-select form-select-solid fw-bolder js-example-basic-single" data-kt-select2="true"
+                    data-placeholder="Select Group" name="contact_group_id" data-allow-clear="true"
+                    data-dropdown-parent="#right_modal">
+                    <option></option>
+                    @for ($i = 0; $i < count($contactGroup); $i++)
+                        <option value="{{ $contactGroup[$i]->id }}"
+                            {{ isset($contact->contact_group_id) && $contactGroup[$i]->id == $contact->contact_group_id ? 'Selected' : '' }}>
+                            {{ $contactGroup[$i]->fullname }}</option>
+                    @endfor
+                </select>
+            </div>
+        </div>
     </div>
 
 </div>

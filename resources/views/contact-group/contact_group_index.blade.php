@@ -26,10 +26,10 @@
                                         <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
                                         <span class="svg-icon svg-icon-1 position-absolute ms-6">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                 viewBox="0 0 24 24" fill="none">
+                                                viewBox="0 0 24 24" fill="none">
                                                 <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
-                                                      height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
-                                                      fill="black" />
+                                                    height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                    fill="black" />
                                                 <path
                                                     d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
                                                     fill="black" />
@@ -37,7 +37,7 @@
                                         </span>
                                         <!--end::Svg Icon-->
                                         <input type="text" id="search" data-kt-docs-table-filter="search"
-                                               class="form-control form-control-solid w-250px ps-14" placeholder="Search" />
+                                            class="form-control form-control-solid w-250px ps-14" placeholder="Search" />
                                     </div>
                                     <!--end::Search-->
                                 </div>
@@ -48,13 +48,13 @@
 
                                         <!--begin::Filter-->
                                         <button type="button" class="btn btn-light-primary me-3"
-                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
-                                                data-kt-menu-flip="top-end">
+                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
+                                            data-kt-menu-flip="top-end">
                                             <!--begin::Svg Icon | path: icons/stockholm/Text/Filter.svg-->
                                             <span class="svg-icon svg-icon-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg"
-                                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
-                                                     viewBox="0 0 24 24" version="1.1">
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
+                                                    viewBox="0 0 24 24" version="1.1">
                                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                         <rect x="0" y="0" width="24" height="24" />
                                                         <path
@@ -66,7 +66,8 @@
                                             <!--end::Svg Icon-->Filter
                                         </button>
                                         <!--begin::Menu 1-->
-                                        <div class="menu menu-sub menu-sub-dropdown w-300px w-md-325px" data-kt-menu="true" style="display: none;">
+                                        <div class="menu menu-sub menu-sub-dropdown w-300px w-md-325px" data-kt-menu="true"
+                                            style="display: none;">
                                             <!--begin::Header-->
                                             <div class="px-7 py-5">
                                                 <div class="fs-4 text-dark fw-bolder">Filter Options</div>
@@ -84,9 +85,9 @@
                                                     <!--end::Label-->
                                                     <!--begin::Input-->
                                                     <select id="contact_status"
-                                                            class="form-select form-select-solid fw-bolder"
-                                                            data-kt-select2="true" data-placeholder="Select option"
-                                                            data-allow-clear="true" data-kt-customer-table-filter="month">
+                                                        class="form-select form-select-solid fw-bolder"
+                                                        data-kt-select2="true" data-placeholder="Select option"
+                                                        data-allow-clear="true" data-kt-customer-table-filter="month">
                                                         <option></option>
                                                         <option value="valid">Valid</option>
                                                         <option value="invalid">Invalid</option>
@@ -98,12 +99,12 @@
                                                 <!--begin::Actions-->
                                                 <div class="d-flex justify-content-end">
                                                     <button type="reset"
-                                                            class="btn btn-white btn-active-light-primary me-2"
-                                                            data-kt-menu-dismiss="true" data-kt-customer-table-filter="reset"
-                                                            onclick="clearFilter() ">Reset</button>
+                                                        class="btn btn-white btn-active-light-primary me-2"
+                                                        data-kt-menu-dismiss="true" data-kt-customer-table-filter="reset"
+                                                        onclick="clearFilter() ">Reset</button>
                                                     <button type="submit" class="btn btn-primary"
-                                                            data-kt-menu-dismiss="true" data-kt-customer-table-filter="filter"
-                                                            onclick="filterData2()">Apply</button>
+                                                        data-kt-menu-dismiss="true" data-kt-customer-table-filter="filter"
+                                                        onclick="filterData2()">Apply</button>
                                                 </div>
                                                 <!--end::Actions-->
                                             </div>
@@ -115,16 +116,16 @@
 
                                         <!--begin::Add Contact-->
                                         <button type="button" class="btn btn-primary" data-bs-toggle="tooltip"
-                                                title="" onclick="addData()" data-bs-original-title="Add Contact">
+                                            title="" onclick="addData()" data-bs-original-title="Add Contact">
                                             <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                             <span class="svg-icon svg-icon-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                     viewBox="0 0 24 24" fill="none">
+                                                    viewBox="0 0 24 24" fill="none">
                                                     <rect opacity="0.5" x="11.364" y="20.364" width="16"
-                                                          height="2" rx="1"
-                                                          transform="rotate(-90 11.364 20.364)" fill="black"></rect>
+                                                        height="2" rx="1"
+                                                        transform="rotate(-90 11.364 20.364)" fill="black"></rect>
                                                     <rect x="4.36396" y="11.364" width="16" height="2"
-                                                          rx="1" fill="black"></rect>
+                                                        rx="1" fill="black"></rect>
                                                 </svg>
                                             </span>
                                             <!--end::Svg Icon-->Add Contact Group
@@ -166,7 +167,7 @@
 
     <script type="text/javascript">
         let _footer = `<button type="button" id="right_modal_close" class="btn btn-light me-3">Discard</button>
-                            <button id="submitbutton" type="button" onclick="clientSubmit()" class="btn btn-lg btn-primary">
+                            <button id="submitbutton" type="button" onclick="groupSubmit()" class="btn btn-lg btn-primary">
                                 <label class="indicator-label">Submit</label>
                                 <label class="indicator-progress">Please wait...
                                     <label class="spinner-border spinner-border-sm align-middle ms-2"></label></label>
@@ -190,10 +191,10 @@
                     }
                 },
                 columns: [{
-                    data: 'id',
-                    name: 'id',
-                    visible: false
-                },
+                        data: 'id',
+                        name: 'id',
+                        visible: false
+                    },
                     {
                         data: 'fullname',
                         name: 'fullname'
@@ -201,7 +202,16 @@
                     {
                         data: 'group_status',
                         name: 'group_status',
-                        searchable: false
+                        render: function(data) {
+                            if (data == '1') {
+                                color = 'success';
+                                text = 'Active';
+                            } else if (data == '0') {
+                                text = 'In-Active';
+                                color = 'danger';
+                            }
+                            return `<span class="badge py-3 px-4 fs-7 badge-light-${color}">${text}</span>`;
+                        }
                     },
                     {
                         data: 'created_at',
@@ -235,9 +245,6 @@
                             <div class=" menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4" data-kt-menu="true">
                                 <div class="menu-item px-3">
                                     <a onclick="editData('${row.id}')" class="menu-link px-3">Edit</a>
-                                </div>
-                                <div class="menu-item px-3">
-                                    <a  onclick="sweetAlertDelete('${row.id}')" class="menu-link px-3" data-kt-users-table-filter="delete_row">Delete</a>
                                 </div>
                             </div>
                             `;
@@ -310,7 +317,7 @@
         }
 
         function editData(id) {
-            url = "{{ route('contact.edit', ':id') }}";
+            url = "{{ route('contact_group.edit', ':id') }}";
             url = url.replace(':id', id);
             $.ajax({
                 type: 'GET',
@@ -349,6 +356,5 @@
             // $('#tag2').val([]);
             dt.draw();
         }
-
     </script>
 @endsection('content')

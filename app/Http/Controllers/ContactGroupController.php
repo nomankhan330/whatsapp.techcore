@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
 use App\Models\ContactGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Datatables;
 
 class ContactGroupController extends Controller
 {
@@ -32,10 +32,6 @@ class ContactGroupController extends Controller
 
         if ($request->ajax()) {
 
-            /*$contact = Contact::when($request->contact_status, function ($query, $status) {
-                return $query->where('contact_status', $status);
-            })->where('user_id', $userId)->get();*/
-
             $contactGroup = ContactGroup::where('user_id', $userId)->get();
 
             return Datatables::of($contactGroup)
@@ -53,7 +49,7 @@ class ContactGroupController extends Controller
      */
     public function create()
     {
-        //
+        return view('contact-group/contact_group_create');
     }
 
     /**
@@ -64,7 +60,14 @@ class ContactGroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'fullname' => 'required',
+        ]);
+        $request->merge([
+            'group_status' => is_null($request->is_active) ?  '0' : '1',
+            'user_id' => Auth::User()->id,
+        ]);
+        $complaint=ContactGroup::create($request->all());
     }
 
     /**
@@ -86,7 +89,7 @@ class ContactGroupController extends Controller
      */
     public function edit(ContactGroup $contactGroup)
     {
-        //
+        return view('contact-group/contact_group_create',compact('contactGroup'));
     }
 
     /**
@@ -98,7 +101,13 @@ class ContactGroupController extends Controller
      */
     public function update(Request $request, ContactGroup $contactGroup)
     {
-        //
+        $request->validate([
+            'fullname' => 'required',
+        ]);
+        $request->merge([
+            'group_status' => is_null($request->is_active) ?  '0' : '1',
+        ]);
+        $contactGroup->update($request->all());
     }
 
     /**
