@@ -77,9 +77,11 @@
     });
 
     function clientSubmit() {
+
         $('button[id="submitbutton"]').attr('disabled', 'disabled');
         $('.indicator-label').css('display', 'none');
         $('.indicator-progress').css('display', 'block');
+
         $.ajax({
             url: $("#contact_from").attr('action'),
             method: 'POST',
@@ -92,33 +94,6 @@
                 toastrAll(result.status, result.message);
                 $('#right_modal_close').click();
             },
-            error: function(err) {
-                $('button[id="submitbutton"]').removeAttr('disabled');
-                $('.indicator-progress').css('display', 'none');
-                $('.indicator-label').css('display', 'block');
-
-                if (err.status == 422) { // when status code is 422, it's a validation issue
-                    $('#contact_from').find('span.myClass').remove()
-
-                    $.each(err.responseJSON.errors, function(i, error) {
-                        var el = $(document).find('[name="' + i + '"]');
-                        if (el[0].type == 'select-one') {
-                            spanerror = $('<span class="myClass" style="color: red;">' + error[0] +
-                                '</span>');
-                            el[0].parentElement.children[2].after(spanerror[0])
-                        } else {
-                            el.after($(
-                                '<span class="myClass" style="color: red;">' + error[0] +
-                                '</span>'));
-                        }
-
-                    });
-                } else if (err.status == 500) {
-                    alert("Something went wrong call the admin");
-                } else if (err.status == 401) {
-                    window.location.reload();
-                }
-            }
         });
     }
 </script>
