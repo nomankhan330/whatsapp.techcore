@@ -9,7 +9,7 @@
 
         @for ($i = 1; $i < 25; $i++)
             @php
-                $a = '{{'; $b='}}';
+                $a = '{{ '; $b=' }}';
             @endphp
             <tr>
                 <td hidden>{{ $a . $i . $b }}</td>
@@ -27,6 +27,7 @@
         variable = obj.parentElement.previousElementSibling.previousElementSibling.textContent;
         body = $("#body_text").val();
         typeInTextarea(variable, $("#body_text"))
+        textBodyTemplate();
         // body += variable;
         // $("#body_text").val(body);
         $('#myModalMd').modal('hide');
