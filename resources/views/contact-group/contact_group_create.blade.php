@@ -9,10 +9,10 @@
 <div class="row">
     <div class="col-md-12">
         <div class="fv-row mb-7">
-            <label class="required fw-bold fs-6 mb-2">Group name</label>
+            <label class="required fw-bold fs-6 mb-2">Full Name</label>
             <input type="text" name="fullname"
                 value="{{ isset($contactGroup->fullname) ? $contactGroup->fullname : '' }}"
-                class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter Region Name here."
+                class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter Full Name"
                 required />
         </div>
     </div>

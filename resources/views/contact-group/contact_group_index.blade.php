@@ -43,13 +43,13 @@
                                 </div>
                                 <!--begin::Card title-->
                                 <!--begin::Card toolbar-->
-                                <div class="card-toolbar" style="display: none;">
+                                <div class="card-toolbar">
                                     <div class="d-flex justify-content-end" data-kt-docs-table-toolbar="base">
 
                                         <!--begin::Filter-->
                                         <button type="button" class="btn btn-light-primary me-3"
                                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
-                                            data-kt-menu-flip="top-end">
+                                            data-kt-menu-flip="top-end" style="display: none;">
                                             <!--begin::Svg Icon | path: icons/stockholm/Text/Filter.svg-->
                                             <span class="svg-icon svg-icon-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -66,8 +66,7 @@
                                             <!--end::Svg Icon-->Filter
                                         </button>
                                         <!--begin::Menu 1-->
-                                        <div class="menu menu-sub menu-sub-dropdown w-300px w-md-325px" data-kt-menu="true"
-                                            style="display: none;">
+                                        <div class="menu menu-sub menu-sub-dropdown w-300px w-md-325px" data-kt-menu="true">
                                             <!--begin::Header-->
                                             <div class="px-7 py-5">
                                                 <div class="fs-4 text-dark fw-bolder">Filter Options</div>
@@ -116,7 +115,7 @@
 
                                         <!--begin::Add Contact-->
                                         <button type="button" class="btn btn-primary" data-bs-toggle="tooltip"
-                                            title="" onclick="addData()" data-bs-original-title="Add Contact">
+                                            title="" onclick="addData()" data-bs-original-title="Add Contact Group">
                                             <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                             <span class="svg-icon svg-icon-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -307,7 +306,7 @@
                     let drawer = KTDrawer.getInstance(drawerElement);
                     $("#right_modal").attr("data-kt-drawer-width", "{default:'350px', 'lg': '640px'}");
                     $("#right_modal").attr('style', 'width: 640px !important')
-                    $('#right_modal_header').html('Add Contact');
+                    $('#right_modal_header').html('Add Group');
                     $('#right_modal_body').html(result);
                     $('#right_modal_footer').html(_footer);
                     drawer.toggle();
