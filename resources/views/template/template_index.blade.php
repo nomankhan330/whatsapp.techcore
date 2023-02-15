@@ -234,7 +234,7 @@
                         orderable: false,
                         class: 'text-center',
                         render: function(data, type, row) {
-                            return `<span class="badge badge-success">${row.template_status}</span>`;
+                            return `<span class="badge ${row.template_status === "Approved" ? "badge-success" : "badge-warning"}">${row.template_status}</span>`;
                         }
                     },
                     {

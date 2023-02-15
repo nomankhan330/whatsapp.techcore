@@ -80,16 +80,16 @@
                                                 <!--begin::Input group-->
                                                 <div class="mb-10">
                                                     <!--begin::Label-->
-                                                    <label class="form-label fs-5 fw-bold mb-3">Template Status:</label>
+                                                    <label class="form-label fs-5 fw-bold mb-3">Message Status:</label>
                                                     <!--end::Label-->
                                                     <!--begin::Input-->
                                                     <select class="form-select form-select-solid fw-bolder"
-                                                        id="template_status" data-kt-select2="true"
+                                                        id="message_status" data-kt-select2="true"
                                                         data-placeholder="Select option" data-allow-clear="true"
                                                         data-kt-customer-table-filter="month">
                                                         <option></option>
-                                                        <option value="approved">Approved</option>
-                                                        <option value="pending">Pending</option>
+                                                        <option value="sent">Sent</option>
+                                                        <option value="failed">Failed</option>
                                                     </select>
                                                     <!--end::Input-->
                                                 </div>
@@ -122,7 +122,9 @@
                                             <tr class="fw-bold fs-6 text-muted">
                                                 <th>Id</th>
                                                 <th>Sender Contact No</th>
-                                                <th>is Send</th>
+                                                <th>Template Name</th>
+                                                <th>Broadcast Name</th>
+                                                <th>Message Status</th>
                                                 <th>Created Datetime</th>
                                                 <th class="text-center">Actions</th>
                                             </tr>
@@ -170,7 +172,7 @@
                 ajax: {
                     url: url,
                     data: function(d) {
-                        // d.template_status = $('#template_status').val()
+                        d.message_status = $('#message_status').val()
                     }
                 },
                 columns: [{
@@ -181,7 +183,14 @@
                         data: 'contact_number',
                         name: 'contact_number'
                     },
-
+                    {
+                        data: 'template_name',
+                        name: 'template_name'
+                    },
+                    {
+                        data: 'broadcast_name',
+                        name: 'broadcast_name'
+                    },
                     {
                         data: 'message_status',
                         name: 'message_status'
@@ -198,6 +207,15 @@
                     },
                 ],
                 columnDefs: [{
+                        targets: 4,
+                        data: null,
+                        orderable: false,
+                        class: 'text-center',
+                        render: function(data, type, row) {
+                            return `<span class="badge ${row.message_status === "Sent" ? "badge-success" : "badge-warning"}">${row.message_status}</span>`;
+                        }
+                    },
+                    {
                     targets: -1,
                     data: null,
                     orderable: false,
@@ -280,7 +298,7 @@
         }
 
         function clearFilter() {
-            $('#template_status').val('');
+            $('#message_status').val('');
             // $('#tag2').val([]);
             dt.draw();
         }

@@ -626,7 +626,7 @@
                 $("#divMedia").show()
                 $("#divText").hide()
                 $("#divTemplateDataHeader").html(``);
-                variable = `<a href="" class="btn btn-info btn-sm">Attachment</a>`;
+                variable = `<a href="#" class="btn btn-info btn-sm">Attachment</a>`;
                 $("#divTemplateDataHeader").html(variable)
             } else if (val === 'text') {
                 $("#divMedia").hide()

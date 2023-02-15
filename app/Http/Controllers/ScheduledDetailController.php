@@ -19,7 +19,15 @@ class ScheduledDetailController extends Controller
     {
         if ($request->ajax()) {
             $userId = Auth::user()->id;
-            $data = MessageBulk::where('user_id',$userId)->get();
+
+            //$data = MessageBulk::where('user_id',$userId)->get();
+
+            $data = MessageBulk::where('user_id',$userId)->
+                when($request->broadcast_type, function ($query, $status) {
+                    return $query->where('broadcast_type', $status);
+            })->get();
+
+
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->make();
@@ -58,7 +66,15 @@ class ScheduledDetailController extends Controller
     public function show(Request $request, MessageBulk $scheduledDetail)
     {
         if ($request->ajax()) {
-            $data = MessageBulkDetail::where('bulk_id',$scheduledDetail->id)->get();
+
+            //$data = MessageBulkDetail::where('bulk_id',$scheduledDetail->id)->get();
+
+            $userId = Auth::user()->id;
+            $data = MessageBulkDetail::where('user_id',$userId)->where('bulk_id',$scheduledDetail->id)->
+                when($request->message_status, function ($query, $status) {
+                    return $query->where('message_status', $status);
+            })->get();
+
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->make();

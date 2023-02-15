@@ -114,6 +114,9 @@
                                                     {{ Route::currentRouteName() == 'scheduled_detail.index' ? 'View Scheduled Details' : '' }}
                                                     {{ Route::currentRouteName() == 'scheduled_detail.show' ? 'View Scheduled Messages' : '' }}
                                                     {{ Route::currentRouteName() == 'view_outgoing_messages' ? 'View Outgoing Messages' : '' }}
+                                                    {{ Route::currentRouteName() == 'view_failed_outgoing_messages' ? 'View Failed Outgoing Messages' : '' }}
+                                                    {{ Route::currentRouteName() == 'view_incoming_messages' ? 'View Incoming Messages' : '' }}
+                                                    {{ Route::currentRouteName() == 'view_broadcast_messages' ? 'View Broadcast Messages' : '' }}
                                                 </span>
                                                 <span class="menu-arrow d-lg-none"></span>
                                             </span>

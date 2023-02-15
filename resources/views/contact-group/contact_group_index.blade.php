@@ -43,7 +43,7 @@
                                 </div>
                                 <!--begin::Card title-->
                                 <!--begin::Card toolbar-->
-                                <div class="card-toolbar">
+                                <div class="card-toolbar" style="display: none;">
                                     <div class="d-flex justify-content-end" data-kt-docs-table-toolbar="base">
 
                                         <!--begin::Filter-->

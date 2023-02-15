@@ -9,7 +9,7 @@
 
         @for ($i = 1; $i < 25; $i++)
             @php
-                $a = '{{ '; $b=' }}';
+                $a = '{{'; $b='}}';
             @endphp
             <tr>
                 <td hidden>{{ $a . $i . $b }}</td>

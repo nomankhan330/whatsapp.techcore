@@ -177,14 +177,15 @@
                     [0, 'desc']
                 ],
                 ajax: {
-                    url: "{{ route('get_broadcast') }}",
+                    url: "{{ route('view_broadcast_messages') }}",
                     data: function(d) {
 
                     }
                 },
                 columns: [{
                         data: 'id',
-                        name: 'id'
+                        name: 'id',
+                        visible: false,
                     },
                     {
                         data: 'broadcast_name',
@@ -195,6 +196,7 @@
                         name: 'template_name'
                     },
                     {
+                        class: "text-center",
                         data: 'scheduled_at',
                         name: 'scheduled_at'
                     },

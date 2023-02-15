@@ -27,6 +27,7 @@ class ContactController extends Controller
             }
         });
     }
+
     public function index(Request $request)
     {
         $userId = Auth::user()->id;

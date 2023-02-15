@@ -228,7 +228,7 @@
                     </div>
 
                     <div data-kt-menu-trigger="click"
-                        class="menu-item menu-accordion {{ Route::currentRouteName() == 'view_outgoing_messages' || Route::currentRouteName() == 'e-forms' ? 'show' : '' }}">
+                        class="menu-item menu-accordion {{ Route::currentRouteName() == 'view_incoming_messages' || Route::currentRouteName() == 'view_failed_outgoing_messages' || Route::currentRouteName() == 'view_outgoing_messages' || Route::currentRouteName() == 'view_broadcast_messages' ? 'show' : '' }}">
                         <span class="menu-link ">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotune/finance/fin002.svg-->
@@ -250,14 +250,16 @@
                         </span>
 
                         <div class="menu-sub menu-sub-accordion">
+
                             <div class="menu-item">
-                                <a class="menu-link" href="#">
+                                <a class="menu-link {{ Route::currentRouteName() == 'view_incoming_messages' ? 'active' : '' }}" href="{{ route('view_incoming_messages') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">View Incoming Messages</span>
+                                    <span class="menu-title">View Incoming Messages </span>
                                 </a>
                             </div>
+
                             <div class="menu-item">
                                 <a class="menu-link {{ Route::currentRouteName() == 'view_outgoing_messages' ? 'active' : '' }}"
                                     href="{{ route('view_outgoing_messages') }}">
@@ -267,22 +269,25 @@
                                     <span class="menu-title">View Outgoing Messages</span>
                                 </a>
                             </div>
+
                             <div class="menu-item">
-                                <a class="menu-link" href="#">
+                                <a class="menu-link {{ Route::currentRouteName() == 'view_failed_outgoing_messages' ? 'active' : '' }}" href="{{ route('view_failed_outgoing_messages') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
                                     <span class="menu-title">View Failed Outgoing Messages</span>
                                 </a>
                             </div>
+
                             <div class="menu-item">
-                                <a class="menu-link" href="{{ route('get_broadcast') }}">
+                                <a class="menu-link {{ Route::currentRouteName() == 'view_broadcast_messages' ? 'active' : '' }}" href="{{ route('view_broadcast_messages') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
                                     <span class="menu-title">View Broadcast</span>
                                 </a>
                             </div>
+
                         </div>
                     </div>
                 @endif

@@ -30,18 +30,24 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+
     Route::resource('client', ClientController::class);
     Route::resource('contact_group', ContactGroupController::class);
     Route::resource('contact', ContactController::class);
     Route::resource('template', TemplateController::class);
     Route::resource('scheduled_detail', ScheduledDetailController::class);
     Route::delete('scheduled_detail_message_delete/{id}', [ScheduledDetailController::class, 'deleteMessageBulkDetail'])->name('scheduled_detail_message_delete');
-    Route::get('get_broadcast', [MessageController::class, 'broadcast'])->name('get_broadcast');
+
     Route::get('template_variable', [TemplateController::class, 'templateVariable'])->name('template_variable');
     Route::get('send_single_message', [MessageController::class, 'index'])->name('send_single_message');
     Route::get('send_bulk_message', [MessageController::class, 'sendBulkMessage'])->name('send_bulk_message');
     Route::post('get_template_data', [MessageController::class, 'getTemplateData'])->name('get_template_data');
+
+    Route::get('view_incoming_messages', [MessageController::class, 'viewIncomingMessages'])->name('view_incoming_messages');
     Route::get('view_outgoing_messages', [MessageController::class, 'viewOutgoingMessages'])->name('view_outgoing_messages');
+    Route::get('view_failed_outgoing_messages', [MessageController::class, 'viewFailedOutgoingMessages'])->name('view_failed_outgoing_messages');
+    Route::get('view_broadcast_messages', [MessageController::class, 'viewBroadcastMessages'])->name('view_broadcast_messages');
+
     Route::post('message', [MessageController::class, 'store'])->name('message');
 });
 

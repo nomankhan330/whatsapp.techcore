@@ -80,16 +80,16 @@
                                                 <!--begin::Input group-->
                                                 <div class="mb-10">
                                                     <!--begin::Label-->
-                                                    <label class="form-label fs-5 fw-bold mb-3">Template Status:</label>
+                                                    <label class="form-label fs-5 fw-bold mb-3">Broadcast Type:</label>
                                                     <!--end::Label-->
                                                     <!--begin::Input-->
                                                     <select class="form-select form-select-solid fw-bolder"
-                                                        id="template_status" data-kt-select2="true"
+                                                        id="broadcast_type" data-kt-select2="true"
                                                         data-placeholder="Select option" data-allow-clear="true"
                                                         data-kt-customer-table-filter="month">
                                                         <option></option>
-                                                        <option value="approved">Approved</option>
-                                                        <option value="pending">Pending</option>
+                                                        <option value="now">Now</option>
+                                                        <option value="later">Later</option>
                                                     </select>
                                                     <!--end::Input-->
                                                 </div>
@@ -123,6 +123,7 @@
                                                 <th>Id</th>
                                                 <th>Template Name</th>
                                                 <th>Broadcast Name</th>
+                                                <th>Broadcast Type</th>
                                                 <th>Scheduled Date & Time</th>
                                                 <th>Created Datetime</th>
                                                 <th class="text-center">Actions</th>
@@ -168,7 +169,7 @@
                 ajax: {
                     url: "{{ route('scheduled_detail.index') }}",
                     data: function(d) {
-                        // d.template_status = $('#template_status').val()
+                        d.broadcast_type = $('#broadcast_type').val()
                     }
                 },
                 columns: [{
@@ -182,6 +183,10 @@
                     {
                         data: 'broadcast_name',
                         name: 'broadcast_name'
+                    },
+                    {
+                        data: 'broadcast_type',
+                        name: 'broadcast_type'
                     },
                     {
                         data: 'scheduled_at',
@@ -203,6 +208,15 @@
                     },
                 ],
                 columnDefs: [{
+                        targets: 3,
+                        data: null,
+                        orderable: false,
+                        class: 'text-center',
+                        render: function(data, type, row) {
+                            return `<span class="badge badge-success">${row.broadcast_type}</span>`;
+                        }
+                    },
+                    {
                     targets: -1,
                     data: null,
                     orderable: false,
@@ -222,9 +236,12 @@
                                 <div class="menu-item px-3">
                                     <a href="${url}" class="menu-link px-3">View</a>
                                 </div>
-                                <div class="menu-item px-3">
+
+                                <div class="menu-item px-3" style="display:${row.broadcast_type === "Now" ? "none" : "block"}">
                                     <a onclick="editData('${row.id}')" class="menu-link px-3">Reschedule</a>
                                 </div>
+
+
                                 <div class="menu-item px-3">
                                     <a  onclick="sweetAlertDelete('${row.id}')" class="menu-link px-3" data-kt-users-table-filter="delete_row">Delete</a>
                                 </div>

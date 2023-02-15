@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Contact;
+use App\Models\MessagesIncome;
 use App\Models\Template;
 use Illuminate\Http\Request;
 use App\Models\Message;
@@ -18,13 +20,10 @@ class MessageController extends Controller
     {
         $userId = Auth::user()->id;
         $whatsAppNumber = Auth::User()->contact_no;
-
-        $contact = Contact::select('*')->where('contact_status','valid')->where('user_id',$userId)->get();
-
-        $templates = Template::select('id','template_name')->where('user_id',$userId)->where('template_status','Approved')->get();
-
+        $contact = Contact::select('*')->where('contact_status', 'valid')->where('user_id', $userId)->get();
+        $templates = Template::select('id', 'template_name')->where('user_id', $userId)->where('template_status', 'Approved')->get();
         //dd($template);
-        return view('message/send_single_message', compact('contact','templates','whatsAppNumber'));
+        return view('message/send_single_message', compact('contact', 'templates', 'whatsAppNumber'));
     }
 
     public function sendBulkMessage(Request $request)
@@ -32,29 +31,24 @@ class MessageController extends Controller
 
         $userId = Auth::user()->id;
         $whatsAppNumber = Auth::User()->contact_no;
-
-        $templates = Template::select('id','template_name')->where('user_id',$userId)->where(function($query) {
-            $query->where('template_status','Approved');
+        $templates = Template::select('id', 'template_name')->where('user_id', $userId)->where(function ($query) {
+            $query->where('template_status', 'Approved');
             //->orWhere('email','johndoe@example.com');
         })->get();
-
-        return view('message/send_bulk_message', compact('templates','whatsAppNumber'));
+        return view('message/send_bulk_message', compact('templates', 'whatsAppNumber'));
     }
 
     public function getTemplateData(Request $request)
     {
         //dd($request->id);
-        $template = Template::where('id',$request->id)->get();
+        $template = Template::where('id', $request->id)->get();
         $param_counts = substr_count($template[0]->body_text, "{{");
-
         /*$text = '{This} is a [test] string, [eat] my [shorts]. [shorts][shorts][shorts]';
         preg_match_all("/\{{^\}}*\]/", $text, $matches);
         dd($matches[0]);*/
-
         preg_match_all('/{{(.*?)}}/', $template[0]->body_text, $matches);
         $params = $matches[0];
         $params = array_values(array_unique($params));
-
         /*$dataArray=array();
 
         for ($i=0; $i < count($params); $i++)
@@ -68,11 +62,10 @@ class MessageController extends Controller
         }
         //dd($dataArray);
         $final = array_merge($dataArray,$params);*/
-
         return response()->json([
             'code' => '200',
             'data' => $template,
-            'params'=> $params,
+            'params' => $params,
             /*'dataArray'=> $dataArray,
             'finals'=> $final,*/
         ]);
@@ -80,23 +73,19 @@ class MessageController extends Controller
 
     public function store(Request $request)
     {
-        if($request->single_or_bulk == 'bulk')
-        {
+        if ($request->single_or_bulk == 'bulk') {
             $request->validate([
                 'template_name' => 'required',
                 'broadcast_name' => 'required',
                 'file' => 'required|max:10000|mimes:xlsx',
                 'scheduled_message_send' => 'required',
-                'scheduled_at'=> $request->scheduled_message_send == 'Now' ? 'nullable' : 'required',
+                'scheduled_at' => $request->scheduled_message_send == 'Now' ? 'nullable' : 'required',
             ]);
-        }
-        else
-        {
+        } else {
 
             $arr = array();
             foreach ($request->all() as $key => $value) {
-                if($key != 'param_')
-                {
+                if ($key != 'param_') {
                     $arr[$key] = ['required'];
                 }
             }
@@ -104,22 +93,22 @@ class MessageController extends Controller
         }
         $userId = Auth::user()->id;
         $whatsAppNumber = Auth::User()->contact_no;
-        $template=Template::with('templateCategory','templateLanguage')->where('id',$request->template_name)->get();
-        $body=$template[0]->body_text;
-        if ($request->hasFile('file')){
+        $template = Template::with('templateCategory', 'templateLanguage')->where('id', $request->template_name)->get();
+        $body = $template[0]->body_text;
+        if ($request->hasFile('file')) {
 
             DB::beginTransaction();
-            $messageBulk=MessageBulk::create([
-                "user_id"=>$userId,
-                "template_id"=>$request->template_name,
-                "template_name"=>$template[0]->template_name,
-                "whatsapp_number"=>$whatsAppNumber,
-                "broadcast_name"=>$request->broadcast,
-                "broadcast_type"=>$request->scheduled_message_send,
-                "scheduled_at"=>$request->scheduled_at,
+            $messageBulk = MessageBulk::create([
+                "user_id" => $userId,
+                "template_id" => $request->template_name,
+                "template_name" => $template[0]->template_name,
+                "whatsapp_number" => $whatsAppNumber,
+                "broadcast_name" => $request->broadcast,
+                "broadcast_type" => $request->scheduled_message_send,
+                "scheduled_at" => $request->scheduled_at,
             ]);
             try {
-                Excel::import(new MessagesImport($template,$messageBulk->id,$request->broadcast_name), $request->file);
+                Excel::import(new MessagesImport($template, $messageBulk->id, $request->broadcast_name), $request->file);
                 DB::commit();
             } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
                 DB::rollBack();
@@ -135,76 +124,70 @@ class MessageController extends Controller
                 'status' => 'success',
             ]);
         }
-
         foreach ($request->all() as $key => $value) {
-            if(str_contains($key, 'key_'))
-            {
-                $va=explode('key_',$key);
+            if (str_contains($key, 'key_')) {
+                $va = explode('key_', $key);
                 // $dataKeyArr[$va[1]]=$value;
-                $body=str_replace($va[1],$value,$body);
+                $body = str_replace($va[1], $value, $body);
             }
         }
-        $headerType=$template[0]->header_type;
-        $buttonType=$template[0]->button_type;
-        $dataArr=array();
-        $dataArr['messaging_product']="whatsapp";
-        $dataArr['to']=$request->contact_number;
-        $dataArr['type']="template";
-        $templateArr=array();
-        $templateArr['name']=$template[0]->templateCategory->fullname; // fullname // category
-        $langArr=array();
-        $langArr['code']=$template[0]->templateLanguage->shortname;
-        $langArr['policy']='deterministic';
-        $templateArr['language']=$langArr;
-        $componentsArr=array();
-        if($headerType =='media')
-        {
-            $componentsArrs=array();
-            $componentsArrs['type']='header';
-            $parametersArr=array();
-            $parametersArr['type']='image';
-            $parametersArr['image']=array("link" => "http(s)://the-image-url");
-            $new=array();
-            array_push($new,$parametersArr);
-            $componentsArrs['parameters']=$new;
-            array_push($componentsArr,$componentsArrs);
+        $headerType = $template[0]->header_type;
+        $buttonType = $template[0]->button_type;
+        $dataArr = array();
+        $dataArr['messaging_product'] = "whatsapp";
+        $dataArr['to'] = $request->contact_number;
+        $dataArr['type'] = "template";
+        $templateArr = array();
+        $templateArr['name'] = $template[0]->templateCategory->fullname; // fullname // category
+        $langArr = array();
+        $langArr['code'] = $template[0]->templateLanguage->shortname;
+        $langArr['policy'] = 'deterministic';
+        $templateArr['language'] = $langArr;
+        $componentsArr = array();
+        if ($headerType == 'media') {
+            $componentsArrs = array();
+            $componentsArrs['type'] = 'header';
+            $parametersArr = array();
+            $parametersArr['type'] = 'image';
+            $parametersArr['image'] = array("link" => "http(s)://the-image-url");
+            $new = array();
+            array_push($new, $parametersArr);
+            $componentsArrs['parameters'] = $new;
+            array_push($componentsArr, $componentsArrs);
         }
-        $componentsArrs=array();
-        $componentsArrs['type']='body';
-        $parametersArr=array();
-        $parametersArr['type']='text';
-        $parametersArr['text']=$body;
-        $new=array();
-        array_push($new,$parametersArr);
-        $componentsArrs['parameters']=$new;
-        array_push($componentsArr,$componentsArrs);
-        if($buttonType == 'quick_reply')
-        {
-            $ii=0;
+        $componentsArrs = array();
+        $componentsArrs['type'] = 'body';
+        $parametersArr = array();
+        $parametersArr['type'] = 'text';
+        $parametersArr['text'] = $body;
+        $new = array();
+        array_push($new, $parametersArr);
+        $componentsArrs['parameters'] = $new;
+        array_push($componentsArr, $componentsArrs);
+        if ($buttonType == 'quick_reply') {
+            $ii = 0;
             foreach ($template[0]->button_value as $key => $value) {
-                $componentsArrs=array();
-                $componentsArrs['type']='button';
-                $componentsArrs['sub_type']='quick_reply';
-                $componentsArrs['index']=$ii;
-                $parametersArr=array();
-                $parametersArr['type']='text';
-                $parametersArr['text']=$value;
-                $new=array();
-                array_push($new,$parametersArr);
-                $componentsArrs['parameters']=$new;
-                array_push($componentsArr,$componentsArrs);
+                $componentsArrs = array();
+                $componentsArrs['type'] = 'button';
+                $componentsArrs['sub_type'] = 'quick_reply';
+                $componentsArrs['index'] = $ii;
+                $parametersArr = array();
+                $parametersArr['type'] = 'text';
+                $parametersArr['text'] = $value;
+                $new = array();
+                array_push($new, $parametersArr);
+                $componentsArrs['parameters'] = $new;
+                array_push($componentsArr, $componentsArrs);
                 $ii++;
             }
         }
-        $templateArr['components']= $componentsArr;
-
-        $dataArr['template']=$templateArr;
-        $dataArr=json_encode($dataArr);
-
+        $templateArr['components'] = $componentsArr;
+        $dataArr['template'] = $templateArr;
+        $dataArr = json_encode($dataArr);
         $data = Message::create([
             'user_id' => $userId,
-            'template_id'=>$request->template_name,
-            'template_name'=>$template[0]->template_name,
+            'template_id' => $request->template_name,
+            'template_name' => $template[0]->template_name,
             'whatsapp_number' => $whatsAppNumber,
             'contact_number' => $request->contact_number,
             'broadcast_name' => $request->broadcast_name,
@@ -235,30 +218,55 @@ class MessageController extends Controller
         ]);
     }
 
+    #region View Messages
+    public function viewIncomingMessages(Request $request)
+    {
+        if ($request->ajax()) {
+            $userId = Auth::user()->id;
+            $data = MessagesIncome::where('user_id', $userId)->get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->make();
+
+        }
+        return view('message/view_incoming_messages');
+    }
+
     public function viewOutgoingMessages(Request $request)
     {
         if ($request->ajax()) {
 
             $userId = Auth::user()->id;
             $whatsAppNumber = Auth::User()->contact_no;
-
-            $message = Message::with('template')->where('user_id',$userId)->
+            $message = Message::with('template')->where('user_id', $userId)->
             when($request->read_status, function ($query, $status) {
                 return $query->where('read_status', $status);
             })->get();
-
             return Datatables::of($message)
                 ->addIndexColumn()
                 ->make();
         }
-
         //dd($message);
         //dd($message[0]->template->template_name);
-
         return view('message/view_outgoing_messages');
     }
 
-    public function broadcast(Request $request)
+    public function viewFailedOutgoingMessages(Request $request)
+    {
+        if ($request->ajax()) {
+
+            $userId = Auth::user()->id;
+            $data = DB::select(DB::raw("SELECT id, contact_number, template_name, broadcast_name, message_type, 'single' `table_type`, created_at FROM messages WHERE message_status = 'Failed' AND user_id = '$userId'
+                        UNION
+                        SELECT id, contact_number, template_name, broadcast_name, message_type, 'bulk' `table_type`, created_at FROM messages_bulk_details WHERE message_status = 'Failed' AND user_id = '$userId'"));
+
+            return Datatables::of($data)->make();
+
+        }
+        return view('message/view_failed_outgoing_messages');
+    }
+
+    public function viewBroadcastMessages(Request $request)
     {
         if ($request->ajax()) {
             $userId = Auth::user()->id;
@@ -267,29 +275,27 @@ class MessageController extends Controller
             SELECT d.id, d.broadcast_name,d.template_name, 'Scheduled' `type`,d.scheduled_at
             FROM messages_bulk d where user_id = '$userId'"));
             return Datatables::of($data)
-            ->addColumn('action', function($row) {
-                $count=$this->getStatusCountMessage($row->type,$row->id);
-                $btn = '<span class="badge badge-primary"
-                style="font-size: 15px;">'.$count[0]->Scheduled.'</span>
-            <span class="badge badge-danger" style="font-size: 15px; ">'.$count[0]->Failed.'</span>
-            <span class="badge badge-success" style="font-size: 15px; ">'.$count[0]->Sent.'</span>';
-                return $btn;
-        })
+                ->addColumn('action', function ($row) {
+                    $count = $this->getStatusCountMessage($row->type, $row->id);
+                    $btn = '<span class="badge badge-primary"
+                                style="font-size: 15px;">' . $count[0]->Scheduled . '</span>
+                                <span class="badge badge-danger" style="font-size: 15px; ">' . $count[0]->Failed . '</span>
+                                <span class="badge badge-success" style="font-size: 15px; ">' . $count[0]->Sent . '</span>';
+                    return $btn;
+                })
                 ->make();
         }
         return view('message/broadcast_index');
     }
-    private function getStatusCountMessage($status,$id)
+
+    private function getStatusCountMessage($status, $id)
     {
-        if($status == 'Scheduled')
-        {
+        if ($status == 'Scheduled') {
             return DB::select(DB::raw("SELECT
             (SELECT COUNT(1) FROM messages_bulk_details WHERE message_status = 'Scheduled' AND bulk_id = '$id') Scheduled,
             (SELECT COUNT(1) FROM messages_bulk_details WHERE message_status = 'Sent' AND bulk_id = '$id') Sent,
             (SELECT COUNT(1) FROM messages_bulk_details WHERE message_status = 'Failed' AND bulk_id = '$id') Failed"));
-        }
-        else
-        {
+        } else {
             return DB::select(DB::raw("SELECT
             (SELECT COUNT(1) FROM messages WHERE message_status = 'Scheduled' AND id = '$id') Scheduled,
             (SELECT COUNT(1) FROM messages WHERE message_status = 'Sent' AND id = '$id') Sent,
@@ -297,4 +303,5 @@ class MessageController extends Controller
         }
 
     }
+    #endregion
 }
