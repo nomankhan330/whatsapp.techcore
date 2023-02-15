@@ -64,6 +64,7 @@ class ContactController extends Controller
             'contact_name' => 'required',
             'contact_number' => 'required|regex:/[0-9]/',
             'country_code' => 'required',
+            'contact_group_id' => 'required',
         ]);
         $userId = Auth::user()->id;
 
